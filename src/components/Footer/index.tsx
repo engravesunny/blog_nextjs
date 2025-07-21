@@ -1,7 +1,9 @@
 export function Footer() {
   return (
     <>
-      <div>Footer</div>
+      <div>
+        Footer {" =>> "} {Math.random()}
+      </div>
     </>
-  )
+  );
 }
