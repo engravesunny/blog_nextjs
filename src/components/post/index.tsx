@@ -1,14 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useStore } from "@/store/StoreProvider";
 
 export const Post = () => {
   const postList = useStore().postState.postList;
   const addPost = useStore().addPost;
-  const [items, _setItem] = useState("items");
   return (
-    <div className={`${items}-center`}>
+    <div>
       <div>
         Post {" =>> "} {Math.random()}
       </div>
