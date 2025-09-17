@@ -18,19 +18,19 @@ export default function PostDetailPage() {
   const [relatedPosts, setRelatedPosts] = useState<IPost[]>([]);
 
   useEffect(() => {
-    const foundPost = store.postState.postList.find((p) => p.id === postId);
+    const foundPost = store.use.postState.postList.find((p) => p.id === postId);
     if (foundPost) {
       setPost(foundPost);
-      store.incrementViews(postId);
+      store.getState().incrementViews(postId);
 
       // 获取评论
-      const postComments = store.postState.comments.filter(
+      const postComments = store.use.postState.comments.filter(
         (c) => c.postId === postId
       );
       setComments(postComments);
 
       // 获取相关文章（同分类或相同标签）
-      const related = store.postState.postList
+      const related = store.use.postState.postList
         .filter(
           (p) =>
             p.id !== postId &&
@@ -40,19 +40,19 @@ export default function PostDetailPage() {
         .slice(0, 3);
       setRelatedPosts(related);
     }
-  }, [postId, store]);
+  }, [postId, store.use.postState.postList, store.use.postState.comments]);
 
   const handleCommentSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (newComment.author.trim() && newComment.content.trim()) {
-      store.addComment({
+      store.getState().addComment({
         postId,
         author: newComment.author,
         content: newComment.content,
       });
       setNewComment({ author: "", content: "" });
       // 重新获取评论
-      const postComments = store.postState.comments.filter(
+      const postComments = store.use.postState.comments.filter(
         (c) => c.postId === postId
       );
       setComments(postComments);
@@ -214,7 +214,7 @@ export default function PostDetailPage() {
                 <span>{post.views} 次浏览</span>
               </div>
               <button
-                onClick={() => store.likePost(post.id)}
+                onClick={() => store.getState().likePost(post.id)}
                 className="flex items-center gap-2 hover:text-red-500 transition-colors"
               >
                 <svg

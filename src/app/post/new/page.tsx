@@ -28,12 +28,12 @@ export default function PostEditorPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [previewMode, setPreviewMode] = useState(false);
 
-  const categories = store.postState.categories;
-  const allTags = store.postState.allTags;
+  const categories = store.use.postState.categories;
+  const allTags = store.use.postState.allTags;
 
   useEffect(() => {
     if (editId) {
-      const post = store.postState.postList.find(
+      const post = store.use.postState.postList.find(
         (p) => p.id === parseInt(editId)
       );
       if (post) {
@@ -50,7 +50,7 @@ export default function PostEditorPage() {
         });
       }
     }
-  }, [editId, store]);
+  }, [editId, store.use.postState.postList]);
 
   const handleInputChange = (field: string, value: any) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -80,7 +80,7 @@ export default function PostEditorPage() {
     try {
       if (editId) {
         // 更新文章
-        store.updatePost(parseInt(editId), {
+        store.getState().updatePost(parseInt(editId), {
           ...formData,
           excerpt:
             formData.body.substring(0, 200) +
@@ -88,7 +88,7 @@ export default function PostEditorPage() {
         });
       } else {
         // 创建新文章
-        store.addPost({
+        store.getState().addPost({
           ...formData,
           excerpt:
             formData.body.substring(0, 200) +
@@ -116,7 +116,7 @@ export default function PostEditorPage() {
     if (estimatedTime !== formData.readTime) {
       setFormData((prev) => ({ ...prev, readTime: estimatedTime }));
     }
-  }, [formData.content, formData.body]);
+  }, [formData.content, formData.body, formData.readTime]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">

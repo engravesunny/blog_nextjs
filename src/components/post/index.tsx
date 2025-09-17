@@ -7,14 +7,14 @@ import Link from "next/link";
 
 export const Post = () => {
   const store = useStore();
-  const filteredPosts = store.getFilteredPosts();
-  const categories = store.postState.categories;
-  const allTags = store.postState.allTags;
-  const searchQuery = store.postState.searchQuery;
-  const selectedCategory = store.postState.selectedCategory;
-  const selectedTags = store.postState.selectedTags;
-  const sortBy = store.postState.sortBy;
-  const sortOrder = store.postState.sortOrder;
+  const filteredPosts = store.getState().getFilteredPosts();
+  const categories = store.use.postState.categories;
+  const allTags = store.use.postState.allTags;
+  const searchQuery = store.use.postState.searchQuery;
+  const selectedCategory = store.use.postState.selectedCategory;
+  const selectedTags = store.use.postState.selectedTags;
+  const sortBy = store.use.postState.sortBy;
+  const sortOrder = store.use.postState.sortOrder;
 
   const [showFilters, setShowFilters] = useState(false);
 
@@ -22,7 +22,7 @@ export const Post = () => {
     const newTags = selectedTags.includes(tag)
       ? selectedTags.filter((t) => t !== tag)
       : [...selectedTags, tag];
-    store.setSelectedTags(newTags);
+    store.getState().setSelectedTags(newTags);
   };
 
   const formatDate = (dateString: string) => {
@@ -123,7 +123,7 @@ export const Post = () => {
         <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700">
           <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
             <button
-              onClick={() => store.likePost(post.id)}
+              onClick={() => store.getState().likePost(post.id)}
               className="flex items-center gap-1 hover:text-red-500 transition-colors"
             >
               <svg
@@ -168,7 +168,7 @@ export const Post = () => {
           <Link
             href={`/post/${post.id}`}
             className="inline-flex items-center gap-1 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium text-sm transition-colors"
-            onClick={() => store.incrementViews(post.id)}
+            onClick={() => store.getState().incrementViews(post.id)}
           >
             阅读更多
             <svg
@@ -225,7 +225,7 @@ export const Post = () => {
             type="text"
             placeholder="搜索文章标题、内容或标签..."
             value={searchQuery}
-            onChange={(e) => store.setSearchQuery(e.target.value)}
+            onChange={(e) => store.getState().setSearchQuery(e.target.value)}
             className="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
           />
         </div>
@@ -272,7 +272,9 @@ export const Post = () => {
             <select
               value={sortBy}
               onChange={(e) =>
-                store.setSortBy(e.target.value as "date" | "views" | "likes")
+                store
+                  .getState()
+                  .setSortBy(e.target.value as "date" | "views" | "likes")
               }
               className="px-3 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg border-0 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
@@ -282,7 +284,9 @@ export const Post = () => {
             </select>
             <button
               onClick={() =>
-                store.setSortOrder(sortOrder === "asc" ? "desc" : "asc")
+                store
+                  .getState()
+                  .setSortOrder(sortOrder === "asc" ? "desc" : "asc")
               }
               className="p-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
             >
@@ -315,7 +319,7 @@ export const Post = () => {
               </h3>
               <div className="flex flex-wrap gap-2">
                 <button
-                  onClick={() => store.setSelectedCategory("")}
+                  onClick={() => store.getState().setSelectedCategory("")}
                   className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
                     selectedCategory === ""
                       ? "bg-blue-600 text-white"
@@ -327,7 +331,9 @@ export const Post = () => {
                 {categories.map((category) => (
                   <button
                     key={category.id}
-                    onClick={() => store.setSelectedCategory(category.name)}
+                    onClick={() =>
+                      store.getState().setSelectedCategory(category.name)
+                    }
                     className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
                       selectedCategory === category.name
                         ? "bg-blue-600 text-white"

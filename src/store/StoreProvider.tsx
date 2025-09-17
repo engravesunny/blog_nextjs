@@ -32,5 +32,5 @@ export const useStore = () => {
   if (!store) {
     throw new Error("useStore must be used within a RootStoreProvider.");
   }
-  return createSelectors(store).use;
+  return createSelectors(store);
 };
