@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { Icons } from "@/components/icons";
 
 export const Nav = () => {
   const [isDark, setIsDark] = useState(false);
@@ -45,17 +46,7 @@ export const Nav = () => {
       <div className="container mx-auto px-4 flex justify-between items-center">
         {/* Logo */}
         <div className="flex items-center space-x-2">
-          <svg
-            className="h-8 w-8 text-blue-600 dark:text-blue-400"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-          >
-            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-            <line x1="12" y1="22.08" x2="12" y2="12"></line>
-          </svg>
+          <Icons.Logo className="h-8 w-8 text-blue-600 dark:text-blue-400" />
           <Link
             href="/"
             className="font-bold text-xl text-gray-800 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
@@ -153,19 +144,7 @@ export const Nav = () => {
             href="/post/new"
             className="hidden md:inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
           >
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M12 4v16m8-8H4"
-              />
-            </svg>
+            <Icons.Plus className="w-4 h-4" />
             写文章
           </Link>
 
@@ -176,33 +155,9 @@ export const Nav = () => {
             aria-label="菜单"
           >
             {isMobileMenuOpen ? (
-              <svg
-                className="h-5 w-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M6 18L18 6M6 6l12 12"
-                ></path>
-              </svg>
+              <Icons.Close className="h-5 w-5" />
             ) : (
-              <svg
-                className="h-5 w-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h16M4 18h16"
-                ></path>
-              </svg>
+              <Icons.Menu className="h-5 w-5" />
             )}
           </button>
         </div>

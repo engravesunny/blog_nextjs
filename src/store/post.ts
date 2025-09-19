@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { RootStore } from ".";
 
 export type IPost = {
@@ -36,7 +34,7 @@ export type IComment = {
   replies?: IComment[];
 };
 
-export type IPostStore = {
+export type IPostState = {
   postList: IPost[];
   categories: ICategory[];
   allTags: string[];
@@ -47,7 +45,9 @@ export type IPostStore = {
   sortBy: "date" | "views" | "likes";
   sortOrder: "asc" | "desc";
   currentPost: IPost | null;
+};
 
+export type IPostActions = {
   // Actions
   addPost: (
     post: Omit<IPost, "id" | "createdAt" | "updatedAt" | "views" | "likes">
@@ -77,7 +77,9 @@ export type IPostStore = {
   getPostsByTag: (tag: string) => IPost[];
 };
 
-export const postState = {
+export type IPostStore = IPostState & IPostActions;
+
+export const postState: IPostState = {
   postList: [
     {
       id: 1,
@@ -193,7 +195,7 @@ Flexbox 是一维布局系统，适合组件内部的布局。
       coverImage: "/images/css-layout.jpg",
       published: true,
     },
-  ] as IPost[],
+  ],
   categories: [
     {
       id: "frontend",
@@ -214,7 +216,7 @@ Flexbox 是一维布局系统，适合组件内部的布局。
       description: "后端技术和架构",
       count: 0,
     },
-  ] as ICategory[],
+  ],
   allTags: [
     "Next.js",
     "React",
@@ -241,12 +243,12 @@ Flexbox 是一维布局系统，适合组件内部的布局。
       content: "期待更多关于 Next.js 的内容。",
       createdAt: "2024-01-16T10:15:00Z",
     },
-  ] as IComment[],
+  ],
   searchQuery: "",
   selectedCategory: "",
   selectedTags: [],
-  sortBy: "date" as const,
-  sortOrder: "desc" as const,
+  sortBy: "date",
+  sortOrder: "desc",
   currentPost: null,
 };
 

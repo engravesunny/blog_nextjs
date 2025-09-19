@@ -1,4 +1,32 @@
+import { Metadata } from "next";
 import { Post } from "@/components/post";
+
+export const metadata: Metadata = {
+  title: "首页",
+  description:
+    "浏览最新的技术文章，包括前端开发、React、Next.js、TypeScript 等技术分享和实践经验。",
+  keywords: [
+    "技术博客",
+    "前端开发",
+    "React",
+    "Next.js",
+    "TypeScript",
+    "JavaScript",
+    "编程",
+    "Web开发",
+  ],
+  openGraph: {
+    title: "我的技术博客 - 首页",
+    description:
+      "浏览最新的技术文章，包括前端开发、React、Next.js、TypeScript 等技术分享和实践经验。",
+    type: "website",
+  },
+  twitter: {
+    title: "我的技术博客 - 首页",
+    description:
+      "浏览最新的技术文章，包括前端开发、React、Next.js、TypeScript 等技术分享和实践经验。",
+  },
+};
 
 export default function Home() {
   return (
