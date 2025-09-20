@@ -4,7 +4,6 @@ import RootStoreProvider from "@/store/StoreProvider";
 import { initState } from "@/store";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { Metadata } from "next";
-import "./globals.css";
 
 export const metadata: Metadata = {
   title: {

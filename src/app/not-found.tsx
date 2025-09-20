@@ -1,5 +1,20 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import {
+  Box,
+  Container,
+  Typography,
+  Button,
+  Card,
+  CardContent,
+  Stack,
+} from "@mui/material";
+import {
+  Home as HomeIcon,
+  Search as SearchIcon,
+  Article as ArticleIcon,
+  Person as PersonIcon,
+} from "@mui/icons-material";
 
 export const metadata: Metadata = {
   title: "页面未找到 - 404",
@@ -13,64 +28,169 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center px-4">
-      <div className="text-center max-w-md mx-auto">
-        <div className="mb-8">
-          <h1 className="text-9xl font-bold text-gray-200 dark:text-gray-700 mb-4">
+    <Box
+      sx={{
+        minHeight: "100vh",
+        background: "background.default",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        py: 4,
+      }}
+    >
+      <Container maxWidth="sm">
+        <Box sx={{ textAlign: "center" }}>
+          {/* 404 大标题 */}
+          <Typography
+            variant="h1"
+            sx={{
+              fontSize: { xs: "6rem", md: "9rem" },
+              fontWeight: 700,
+              color: "text.disabled",
+              mb: 2,
+              lineHeight: 1,
+            }}
+          >
             404
-          </h1>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-            页面未找到
-          </h2>
-          <p className="text-gray-600 dark:text-gray-400 mb-8">
-            抱歉，您访问的页面不存在。可能是链接错误或页面已被移动。
-          </p>
-        </div>
+          </Typography>
 
-        <div className="space-y-4">
-          <Link
+          {/* 标题和描述 */}
+          <Typography
+            variant="h4"
+            sx={{
+              fontWeight: 700,
+              color: "text.primary",
+              mb: 2,
+              fontSize: { xs: "1.5rem", md: "2rem" },
+            }}
+          >
+            页面未找到
+          </Typography>
+
+          <Typography
+            variant="body1"
+            color="text.secondary"
+            sx={{
+              mb: 4,
+              lineHeight: 1.6,
+              maxWidth: 400,
+              mx: "auto",
+            }}
+          >
+            抱歉，您访问的页面不存在。可能是链接错误或页面已被移动。
+          </Typography>
+
+          {/* 主要操作按钮 */}
+          <Button
+            component={Link}
             href="/"
-            className="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+            variant="contained"
+            size="large"
+            startIcon={<HomeIcon />}
+            sx={{
+              mb: 3,
+              px: 4,
+              py: 1.5,
+              borderRadius: 2,
+              fontWeight: 500,
+            }}
           >
             返回首页
-          </Link>
+          </Button>
 
-          <div className="text-sm text-gray-500 dark:text-gray-400">
+          {/* 提示文字 */}
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
             或者尝试以下链接：
-          </div>
+          </Typography>
 
-          <div className="flex flex-col sm:flex-row gap-2 justify-center">
-            <Link
+          {/* 快速链接 */}
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            spacing={2}
+            justifyContent="center"
+            sx={{ mb: 6 }}
+          >
+            <Button
+              component={Link}
               href="/about"
-              className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 underline"
+              variant="text"
+              startIcon={<PersonIcon />}
+              sx={{
+                color: "primary.main",
+                "&:hover": {
+                  backgroundColor: "action.hover",
+                },
+              }}
             >
               关于我们
-            </Link>
-            <Link
+            </Button>
+            <Button
+              component={Link}
               href="/post/new"
-              className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 underline"
+              variant="text"
+              startIcon={<ArticleIcon />}
+              sx={{
+                color: "primary.main",
+                "&:hover": {
+                  backgroundColor: "action.hover",
+                },
+              }}
             >
               发布文章
-            </Link>
-          </div>
-        </div>
+            </Button>
+          </Stack>
 
-        {/* 搜索建议 */}
-        <div className="mt-12 p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">
-            寻找特定内容？
-          </h3>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-            您可以返回首页使用搜索功能，或浏览我们的文章分类。
-          </p>
-          <Link
-            href="/"
-            className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium"
+          {/* 搜索建议卡片 */}
+          <Card
+            sx={{
+              borderRadius: 3,
+              boxShadow: 1,
+              border: 1,
+              borderColor: "divider",
+            }}
           >
-            浏览所有文章 →
-          </Link>
-        </div>
-      </div>
-    </div>
+            <CardContent sx={{ p: 3 }}>
+              <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                <SearchIcon sx={{ color: "primary.main", mr: 1 }} />
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontWeight: 600,
+                    color: "text.primary",
+                  }}
+                >
+                  寻找特定内容？
+                </Typography>
+              </Box>
+
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ mb: 2, lineHeight: 1.6 }}
+              >
+                您可以返回首页使用搜索功能，或浏览我们的文章分类。
+              </Typography>
+
+              <Button
+                component={Link}
+                href="/"
+                variant="text"
+                sx={{
+                  color: "primary.main",
+                  fontWeight: 500,
+                  "&:hover": {
+                    backgroundColor: "transparent",
+                    textDecoration: "underline",
+                  },
+                }}
+                endIcon={<span>→</span>}
+              >
+                浏览所有文章
+              </Button>
+            </CardContent>
+          </Card>
+        </Box>
+      </Container>
+    </Box>
   );
 }

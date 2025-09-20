@@ -43,6 +43,8 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     setMounted(true);
   }, []);
 
+  // 注意：不再需要管理 body 类名，因为我们使用 MUI 的 CssBaseline 来处理样式
+
   const toggleTheme = () => {
     const newTheme = !isDark;
     setIsDark(newTheme);

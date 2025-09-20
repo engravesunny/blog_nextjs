@@ -3,26 +3,73 @@ import {
   SkeletonText,
   Skeleton,
 } from "@/components/ui/Skeleton";
+import { Box, Container, Grid } from "@mui/material";
 
 export default function Loading() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-      <div className="container mx-auto px-4 py-12 max-w-4xl">
+    <Box
+      sx={{
+        minHeight: "100vh",
+        background: "background.default",
+      }}
+    >
+      <Container maxWidth="lg" sx={{ py: { xs: 6, md: 8 }, px: { xs: 2, sm: 3, md: 4 } }}>
         {/* 返回按钮骨架 */}
-        <Skeleton className="h-6 w-20 mb-8" />
+        <Skeleton sx={{ height: 24, width: 80, mb: 4 }} />
 
         {/* 主要内容骨架 */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
+        <Box
+          sx={{
+            backgroundColor: "background.paper",
+            borderRadius: 3,
+            boxShadow: 1,
+            border: 1,
+            borderColor: "divider",
+            overflow: "hidden",
+          }}
+        >
           {/* 头部横幅骨架 */}
-          <div className="bg-gradient-to-r from-blue-500 to-purple-600 px-8 py-12 text-white">
-            <div className="text-center">
-              <Skeleton className="w-24 h-24 rounded-full mx-auto mb-6 bg-white/20" />
-              <Skeleton className="h-10 w-64 mx-auto mb-4 bg-white/20" />
-              <Skeleton className="h-6 w-96 mx-auto bg-white/20" />
-            </div>
-          </div>
+          <Box
+            sx={{
+              background: (theme) =>
+                `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+              px: { xs: 4, md: 8 },
+              py: { xs: 6, md: 12 },
+              color: "white",
+            }}
+          >
+            <Box sx={{ textAlign: "center" }}>
+              <Skeleton
+                sx={{
+                  width: 96,
+                  height: 96,
+                  borderRadius: "50%",
+                  mx: "auto",
+                  mb: 3,
+                  backgroundColor: "rgba(255, 255, 255, 0.2)",
+                }}
+              />
+              <Skeleton
+                sx={{
+                  height: 40,
+                  width: 256,
+                  mx: "auto",
+                  mb: 2,
+                  backgroundColor: "rgba(255, 255, 255, 0.2)",
+                }}
+              />
+              <Skeleton
+                sx={{
+                  height: 24,
+                  width: 384,
+                  mx: "auto",
+                  backgroundColor: "rgba(255, 255, 255, 0.2)",
+                }}
+              />
+            </Box>
+          </Box>
 
-          <div className="p-8">
+          <Box sx={{ p: 4 }}>
             {/* 博客介绍骨架 */}
             <section className="mb-12">
               <SkeletonHeading className="w-32 mb-6" />

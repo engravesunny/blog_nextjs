@@ -79,154 +79,282 @@ export type IPostActions = {
 
 export type IPostStore = IPostState & IPostActions;
 
-export const postState: IPostState = {
-  postList: [
-    {
-      id: 1,
-      title: "Next.js 15 新特性详解",
-      body: "探索 Next.js 15 带来的革命性变化，包括 React 19 支持、Turbopack 优化等。",
-      content: `# Next.js 15 新特性详解
+// Mock 数据生成函数
+const generateMockPosts = (): IPost[] => {
+  const authors = [
+    "张三",
+    "李四",
+    "王五",
+    "赵六",
+    "钱七",
+    "孙八",
+    "周九",
+    "吴十",
+  ];
+  const categories = [
+    "前端开发",
+    "后端开发",
+    "编程语言",
+    "设计",
+    "工具",
+    "架构",
+  ];
+  const tagPool = [
+    "React",
+    "Vue",
+    "Angular",
+    "Next.js",
+    "Nuxt.js",
+    "TypeScript",
+    "JavaScript",
+    "Node.js",
+    "Python",
+    "Java",
+    "Go",
+    "Rust",
+    "CSS",
+    "HTML",
+    "Sass",
+    "Less",
+    "Webpack",
+    "Vite",
+    "Docker",
+    "Kubernetes",
+    "AWS",
+    "Azure",
+    "MongoDB",
+    "MySQL",
+    "PostgreSQL",
+    "Redis",
+    "GraphQL",
+    "REST API",
+    "微服务",
+    "单页应用",
+    "PWA",
+    "移动开发",
+    "响应式设计",
+    "UI/UX",
+    "设计系统",
+    "性能优化",
+    "SEO",
+    "测试",
+    "CI/CD",
+    "DevOps",
+    "安全",
+    "区块链",
+    "AI",
+    "机器学习",
+    "数据分析",
+  ];
 
-Next.js 15 是一个重要的版本更新，带来了许多令人兴奋的新特性和改进。
+  const titles = [
+    "Next.js 15 新特性详解",
+    "TypeScript 最佳实践指南",
+    "现代 CSS 布局技术",
+    "React 18 并发特性深度解析",
+    "Vue 3 Composition API 实战指南",
+    "Node.js 性能优化技巧",
+    "微服务架构设计模式",
+    "前端工程化最佳实践",
+    "GraphQL vs REST API 对比分析",
+    "Docker 容器化部署实战",
+    "Webpack 5 模块联邦详解",
+    "PWA 渐进式 Web 应用开发",
+    "前端安全防护策略",
+    "响应式设计进阶技巧",
+    "JavaScript 异步编程模式",
+    "CSS-in-JS 解决方案对比",
+    "前端监控与错误追踪",
+    "Web Components 组件化开发",
+    "Serverless 架构实践",
+    "前端测试策略与工具选择",
+  ];
 
-## 主要特性
+  return titles.map((title, index) => {
+    const id = index + 1;
+    const author = authors[Math.floor(Math.random() * authors.length)];
+    const category = categories[Math.floor(Math.random() * categories.length)];
+    const numTags = Math.floor(Math.random() * 4) + 2; // 2-5个标签
+    const tags = Array.from(
+      { length: numTags },
+      () => tagPool[Math.floor(Math.random() * tagPool.length)]
+    ).filter((tag, idx, arr) => arr.indexOf(tag) === idx); // 去重
 
-### 1. React 19 支持
-Next.js 15 完全支持 React 19，包括新的并发特性和服务器组件改进。
+    const readTime = Math.floor(Math.random() * 15) + 3; // 3-17分钟
+    const views = Math.floor(Math.random() * 1000) + 50; // 50-1049浏览量
+    const likes = Math.floor(Math.random() * 100) + 5; // 5-104点赞数
 
-### 2. Turbopack 稳定版
-Turbopack 现在已经稳定，提供了显著的构建性能提升。
+    // 生成创建时间（最近30天内）
+    const daysAgo = Math.floor(Math.random() * 30);
+    const createdAt = new Date();
+    createdAt.setDate(createdAt.getDate() - daysAgo);
 
-### 3. 改进的缓存策略
-新的缓存机制让应用程序更加高效。
+    // 更新时间可能与创建时间相同或稍晚
+    const updatedAt = new Date(createdAt);
+    if (Math.random() > 0.7) {
+      // 30%的概率有更新
+      updatedAt.setHours(updatedAt.getHours() + Math.floor(Math.random() * 48));
+    }
 
-## 总结
-Next.js 15 是一个值得升级的版本，为开发者提供了更好的开发体验。`,
-      excerpt:
-        "探索 Next.js 15 带来的革命性变化，包括 React 19 支持、Turbopack 优化等。",
-      author: "张三",
-      category: "前端开发",
-      tags: ["Next.js", "React", "前端"],
-      createdAt: "2024-01-15T10:00:00Z",
-      updatedAt: "2024-01-15T10:00:00Z",
-      readTime: 5,
-      views: 128,
-      likes: 23,
-      coverImage: "/images/nextjs-15.jpg",
-      published: true,
-    },
-    {
-      id: 2,
-      title: "TypeScript 最佳实践指南",
-      body: "分享在大型项目中使用 TypeScript 的经验和最佳实践，提高代码质量和开发效率。",
-      content: `# TypeScript 最佳实践指南
+    const body = `探索${title}的核心概念和实践应用，深入分析技术细节，分享实战经验和最佳实践。本文将帮助你更好地理解和掌握相关技术。`;
 
-TypeScript 已经成为现代前端开发的标准工具。本文将分享一些在大型项目中的最佳实践。
+    const content = `# ${title}
 
-## 类型定义
+## 概述
 
-### 1. 接口 vs 类型别名
-- 优先使用接口定义对象类型
-- 使用类型别名定义联合类型和复杂类型
+${body}
 
-### 2. 泛型的使用
-合理使用泛型可以提高代码的复用性和类型安全性。
+## 核心特性
 
-## 项目配置
+### 1. 主要功能
+详细介绍主要功能和特性，包括使用场景和优势分析。
 
-### tsconfig.json 配置
-严格的 TypeScript 配置有助于捕获潜在的错误。
+### 2. 技术实现
+深入分析技术实现原理，提供代码示例和最佳实践。
 
-## 总结
-遵循这些最佳实践可以让你的 TypeScript 项目更加健壮和可维护。`,
-      excerpt:
-        "分享在大型项目中使用 TypeScript 的经验和最佳实践，提高代码质量和开发效率。",
-      author: "李四",
-      category: "编程语言",
-      tags: ["TypeScript", "JavaScript", "最佳实践"],
-      createdAt: "2024-01-10T14:30:00Z",
-      updatedAt: "2024-01-12T09:15:00Z",
-      readTime: 8,
-      views: 256,
-      likes: 45,
-      coverImage: "/images/typescript-guide.jpg",
-      published: true,
-    },
-    {
-      id: 3,
-      title: "现代 CSS 布局技术",
-      body: "深入了解 CSS Grid、Flexbox 和容器查询等现代布局技术，构建响应式网页设计。",
-      content: `# 现代 CSS 布局技术
+### 3. 性能优化
+探讨性能优化策略和实际应用中的注意事项。
 
-CSS 布局技术在过去几年中发生了巨大变化。让我们探索这些现代技术。
+## 实战案例
 
-## CSS Grid
+通过具体的实战案例，展示如何在项目中应用这些技术。
 
-CSS Grid 是二维布局系统，非常适合复杂的页面布局。
-
-\`\`\`css
-.grid-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 1rem;
-}
+\`\`\`javascript
+// 示例代码
+const example = {
+  title: "${title}",
+  description: "实战示例",
+  implementation: () => {
+    console.log("具体实现逻辑");
+  }
+};
 \`\`\`
 
-## Flexbox
+## 最佳实践
 
-Flexbox 是一维布局系统，适合组件内部的布局。
-
-## 容器查询
-
-容器查询让组件可以根据其容器的大小进行响应式设计。
+1. **代码规范** - 遵循统一的代码规范和风格指南
+2. **性能考虑** - 注重性能优化和用户体验
+3. **可维护性** - 编写易于维护和扩展的代码
+4. **测试覆盖** - 确保充分的测试覆盖率
 
 ## 总结
-掌握这些现代布局技术可以让你创建更灵活和响应式的网页设计。`,
-      excerpt:
-        "深入了解 CSS Grid、Flexbox 和容器查询等现代布局技术，构建响应式网页设计。",
-      author: "王五",
-      category: "前端开发",
-      tags: ["CSS", "布局", "响应式设计"],
-      createdAt: "2024-01-08T16:45:00Z",
-      updatedAt: "2024-01-08T16:45:00Z",
-      readTime: 6,
-      views: 189,
-      likes: 34,
-      coverImage: "/images/css-layout.jpg",
+
+${title}为现代开发提供了强大的能力，通过合理使用可以显著提升开发效率和项目质量。建议在实际项目中逐步应用这些技术和最佳实践。
+
+## 参考资源
+
+- 官方文档
+- 社区最佳实践
+- 相关技术博客
+- 开源项目案例`;
+
+    return {
+      id,
+      title,
+      body,
+      content,
+      excerpt: body,
+      author,
+      category,
+      tags,
+      createdAt: createdAt.toISOString(),
+      updatedAt: updatedAt.toISOString(),
+      readTime,
+      views,
+      likes,
+      coverImage: Math.random() > 0.3 ? `/images/post-${id}.jpg` : undefined, // 70%有封面图
       published: true,
-    },
-  ],
+    };
+  });
+};
+
+export const postState: IPostState = {
+  postList: generateMockPosts(),
   categories: [
     {
       id: "frontend",
       name: "前端开发",
       description: "前端技术相关文章",
-      count: 2,
+      count: 8,
+    },
+    {
+      id: "backend",
+      name: "后端开发",
+      description: "后端技术和架构",
+      count: 4,
     },
     {
       id: "programming",
       name: "编程语言",
       description: "编程语言学习和实践",
-      count: 1,
+      count: 3,
     },
-    { id: "design", name: "设计", description: "UI/UX 设计相关", count: 0 },
     {
-      id: "backend",
-      name: "后端开发",
-      description: "后端技术和架构",
-      count: 0,
+      id: "design",
+      name: "设计",
+      description: "UI/UX 设计相关",
+      count: 2,
+    },
+    {
+      id: "tools",
+      name: "工具",
+      description: "开发工具和效率提升",
+      count: 2,
+    },
+    {
+      id: "architecture",
+      name: "架构",
+      description: "系统架构和设计模式",
+      count: 1,
     },
   ],
   allTags: [
     "Next.js",
     "React",
-    "前端",
     "TypeScript",
     "JavaScript",
     "最佳实践",
     "CSS",
     "布局",
     "响应式设计",
+    "Vue",
+    "Angular",
+    "Node.js",
+    "Python",
+    "Java",
+    "Go",
+    "Rust",
+    "HTML",
+    "Sass",
+    "Less",
+    "Webpack",
+    "Vite",
+    "Docker",
+    "Kubernetes",
+    "AWS",
+    "Azure",
+    "MongoDB",
+    "MySQL",
+    "PostgreSQL",
+    "Redis",
+    "GraphQL",
+    "REST API",
+    "微服务",
+    "单页应用",
+    "PWA",
+    "移动开发",
+    "UI/UX",
+    "设计系统",
+    "性能优化",
+    "SEO",
+    "测试",
+    "CI/CD",
+    "DevOps",
+    "安全",
+    "区块链",
+    "AI",
+    "机器学习",
+    "数据分析",
   ],
   comments: [
     {

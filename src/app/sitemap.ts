@@ -26,21 +26,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  // 动态文章页面
-  const postPages = postState.postList.map((post) => ({
-    url: `${baseUrl}/post/${post.id}`,
-    lastModified: new Date(post.updatedAt),
-    changeFrequency: "weekly" as const,
-    priority: 0.9,
-  }));
+  // 动态文章页面 - 在构建时可能为空，运行时会更新
+  const postPages =
+    postState.postList?.map((post) => ({
+      url: `${baseUrl}/post/${post.id}`,
+      lastModified: new Date(post.updatedAt),
+      changeFrequency: "weekly" as const,
+      priority: 0.9,
+    })) || [];
 
-  // 分类页面
-  const categoryPages = postState.categories.map((category) => ({
-    url: `${baseUrl}/?category=${encodeURIComponent(category.name)}`,
-    lastModified: new Date(),
-    changeFrequency: "weekly" as const,
-    priority: 0.7,
-  }));
+  // 分类页面 - 在构建时可能为空，运行时会更新
+  const categoryPages =
+    postState.categories?.map((category) => ({
+      url: `${baseUrl}/?category=${encodeURIComponent(category.name)}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.7,
+    })) || [];
 
   return [...staticPages, ...postPages, ...categoryPages];
 }

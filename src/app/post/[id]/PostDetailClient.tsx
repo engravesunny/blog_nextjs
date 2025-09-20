@@ -5,6 +5,23 @@ import { useStore } from "@/store/StoreProvider";
 import { IPost, IComment } from "@/store/post";
 import { Icons } from "@/components/icons";
 import { usePostContent } from "@/hooks/usePostContent";
+import {
+  Box,
+  Card,
+  CardContent,
+  Button,
+  TextField,
+  Typography,
+  Avatar,
+  Divider,
+  Alert,
+  CircularProgress,
+  Stack,
+} from "@mui/material";
+import {
+  Favorite as FavoriteIcon,
+  Refresh as RefreshIcon,
+} from "@mui/icons-material";
 
 interface PostDetailClientProps {
   postId: number;
@@ -69,116 +86,229 @@ export function PostDetailClient({
   return (
     <>
       {/* 点赞按钮和内容刷新 */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 mb-8">
-        <div className="flex items-center justify-center gap-4">
-          <button
-            onClick={handleLike}
-            className="flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white font-medium rounded-lg transition-all duration-200 transform hover:scale-105"
+      <Card
+        sx={{
+          borderRadius: 3,
+          boxShadow: 1,
+          border: 1,
+          borderColor: "divider",
+          mb: 4,
+        }}
+      >
+        <CardContent sx={{ p: 3 }}>
+          <Stack
+            direction="row"
+            spacing={2}
+            justifyContent="center"
+            alignItems="center"
           >
-            <Icons.HeartFilled className="w-5 h-5" />
-            <span>点赞 ({currentPost.likes})</span>
-          </button>
+            <Button
+              onClick={handleLike}
+              variant="contained"
+              startIcon={<FavoriteIcon />}
+              sx={{
+                background: (theme) =>
+                  `linear-gradient(135deg, ${theme.palette.error.main} 0%, ${theme.palette.error.dark} 100%)`,
+                color: "white",
+                px: 3,
+                py: 1.5,
+                borderRadius: 2,
+                fontWeight: 500,
+                "&:hover": {
+                  background: (theme) =>
+                    `linear-gradient(135deg, ${theme.palette.error.dark} 0%, ${theme.palette.error.main} 100%)`,
+                  transform: "scale(1.05)",
+                },
+                transition: "all 0.2s ease",
+              }}
+            >
+              点赞 ({currentPost.likes})
+            </Button>
 
-          {/* 内容刷新按钮 */}
-          <button
-            onClick={refetch}
-            disabled={contentLoading}
-            className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg transition-colors disabled:opacity-50"
-            title="刷新文章内容"
-          >
-            <Icons.Refresh
-              className={`w-4 h-4 ${contentLoading ? "animate-spin" : ""}`}
-            />
-            <span className="text-sm">刷新内容</span>
-          </button>
-        </div>
+            {/* 内容刷新按钮 */}
+            <Button
+              onClick={refetch}
+              disabled={contentLoading}
+              variant="outlined"
+              startIcon={
+                contentLoading ? (
+                  <CircularProgress size={16} />
+                ) : (
+                  <RefreshIcon />
+                )
+              }
+              sx={{
+                px: 2,
+                py: 1,
+                borderRadius: 2,
+                fontSize: "0.875rem",
+                "&:disabled": {
+                  opacity: 0.5,
+                },
+              }}
+              title="刷新文章内容"
+            >
+              刷新内容
+            </Button>
+          </Stack>
 
-        {/* 内容加载状态和错误提示 */}
-        {contentLoading && (
-          <div className="mt-4 text-center text-sm text-gray-500">
-            正在获取最新内容...
-          </div>
-        )}
+          {/* 内容加载状态和错误提示 */}
+          {contentLoading && (
+            <Box sx={{ mt: 2, textAlign: "center" }}>
+              <Typography variant="body2" color="text.secondary">
+                正在获取最新内容...
+              </Typography>
+            </Box>
+          )}
 
-        {contentError && (
-          <div className="mt-4 text-center text-sm text-amber-600 dark:text-amber-400">
-            ⚠️ {contentError}
-          </div>
-        )}
-      </div>
+          {contentError && (
+            <Box sx={{ mt: 2 }}>
+              <Alert severity="warning" sx={{ borderRadius: 2 }}>
+                {contentError}
+              </Alert>
+            </Box>
+          )}
+        </CardContent>
+      </Card>
 
       {/* 评论区 */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-8 mb-8">
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-          评论 ({comments.length})
-        </h3>
-
-        {/* 评论表单 */}
-        <form onSubmit={handleCommentSubmit} className="mb-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            <input
-              type="text"
-              placeholder="您的姓名"
-              value={newComment.author}
-              onChange={(e) =>
-                setNewComment({ ...newComment, author: e.target.value })
-              }
-              className="px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              required
-            />
-          </div>
-          <textarea
-            placeholder="写下您的评论..."
-            value={newComment.content}
-            onChange={(e) =>
-              setNewComment({ ...newComment, content: e.target.value })
-            }
-            rows={4}
-            className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent mb-4"
-            required
-          />
-          <button
-            type="submit"
-            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
+      <Card
+        sx={{
+          borderRadius: 3,
+          boxShadow: 1,
+          border: 1,
+          borderColor: "divider",
+          mb: 4,
+        }}
+      >
+        <CardContent sx={{ p: 4 }}>
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: 700,
+              color: "text.primary",
+              mb: 3,
+            }}
           >
-            发表评论
-          </button>
-        </form>
+            评论 ({comments.length})
+          </Typography>
 
-        {/* 评论列表 */}
-        <div className="space-y-6">
-          {comments.map((comment) => (
-            <div
-              key={comment.id}
-              className="border-b border-gray-200 dark:border-gray-700 pb-6 last:border-b-0"
+          {/* 评论表单 */}
+          <Box component="form" onSubmit={handleCommentSubmit} sx={{ mb: 4 }}>
+            <Box sx={{ mb: 2 }}>
+              <TextField
+                fullWidth
+                placeholder="您的姓名"
+                value={newComment.author}
+                onChange={(e) =>
+                  setNewComment({ ...newComment, author: e.target.value })
+                }
+                required
+                sx={{
+                  maxWidth: { xs: "100%", md: "50%" },
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: 2,
+                  },
+                }}
+              />
+            </Box>
+
+            <TextField
+              fullWidth
+              multiline
+              rows={4}
+              placeholder="写下您的评论..."
+              value={newComment.content}
+              onChange={(e) =>
+                setNewComment({ ...newComment, content: e.target.value })
+              }
+              required
+              sx={{
+                mb: 2,
+                "& .MuiOutlinedInput-root": {
+                  borderRadius: 2,
+                },
+              }}
+            />
+
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{
+                px: 3,
+                py: 1.5,
+                borderRadius: 2,
+                fontWeight: 500,
+              }}
             >
-              <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-medium">
-                  {comment.author.charAt(0).toUpperCase()}
-                </div>
-                <div>
-                  <h4 className="font-medium text-gray-900 dark:text-white">
-                    {comment.author}
-                  </h4>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    <time dateTime={comment.createdAt}>
+              发表评论
+            </Button>
+          </Box>
+
+          {/* 评论列表 */}
+          <Stack spacing={3}>
+            {comments.map((comment, index) => (
+              <Box key={comment.id}>
+                <Stack direction="row" spacing={2} sx={{ mb: 2 }}>
+                  <Avatar
+                    sx={{
+                      width: 40,
+                      height: 40,
+                      background: (theme) =>
+                        `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+                      color: "white",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {comment.author.charAt(0).toUpperCase()}
+                  </Avatar>
+                  <Box sx={{ flexGrow: 1 }}>
+                    <Typography
+                      variant="subtitle2"
+                      sx={{
+                        fontWeight: 600,
+                        color: "text.primary",
+                        mb: 0.5,
+                      }}
+                    >
+                      {comment.author}
+                    </Typography>
+                    <Typography
+                      variant="caption"
+                      color="text.secondary"
+                      component="time"
+                      dateTime={comment.createdAt}
+                    >
                       {formatDate(comment.createdAt)}
-                    </time>
-                  </p>
-                </div>
-              </div>
-              <p className="text-gray-700 dark:text-gray-300 ml-13">
-                {comment.content}
-              </p>
-            </div>
-          ))}
-          {comments.length === 0 && (
-            <p className="text-center text-gray-500 dark:text-gray-400 py-8">
-              暂无评论，快来发表第一条评论吧！
-            </p>
-          )}
-        </div>
-      </div>
+                    </Typography>
+                  </Box>
+                </Stack>
+
+                <Typography
+                  variant="body2"
+                  color="text.primary"
+                  sx={{
+                    ml: 7,
+                    lineHeight: 1.6,
+                  }}
+                >
+                  {comment.content}
+                </Typography>
+
+                {index < comments.length - 1 && <Divider sx={{ mt: 3 }} />}
+              </Box>
+            ))}
+
+            {comments.length === 0 && (
+              <Box sx={{ textAlign: "center", py: 4 }}>
+                <Typography variant="body2" color="text.secondary">
+                  暂无评论，快来发表第一条评论吧！
+                </Typography>
+              </Box>
+            )}
+          </Stack>
+        </CardContent>
+      </Card>
     </>
   );
 }

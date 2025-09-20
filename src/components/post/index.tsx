@@ -17,7 +17,6 @@ import {
   MenuItem,
   FormControl,
   Chip,
-  Grid,
   Container,
   Collapse,
   Divider,
@@ -94,7 +93,8 @@ export const Post = () => {
         <CardMedia
           sx={{
             height: 200,
-            background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+            background: (theme) =>
+              `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
             position: "relative",
             display: "flex",
             alignItems: "flex-end",
@@ -105,9 +105,10 @@ export const Post = () => {
             label={post.category}
             size="small"
             sx={{
-              backgroundColor: "rgba(255, 255, 255, 0.9)",
+              backgroundColor: "background.paper",
               color: "text.primary",
               fontWeight: 500,
+              opacity: 0.9,
             }}
           />
         </CardMedia>
@@ -185,9 +186,12 @@ export const Post = () => {
                 fontSize: "0.75rem",
                 height: 24,
                 cursor: "pointer",
+                borderColor: "divider",
+                color: "text.secondary",
                 "&:hover": {
-                  backgroundColor: "primary.light",
-                  color: "primary.contrastText",
+                  backgroundColor: "action.hover",
+                  borderColor: "primary.main",
+                  color: "primary.main",
                 },
                 transition: "all 0.2s ease",
               }}
@@ -260,9 +264,7 @@ export const Post = () => {
             mb: 2,
             fontSize: { xs: "2rem", md: "3rem" },
             background: (theme) =>
-              theme.palette.mode === "light"
-                ? "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
-                : "linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%)",
+              `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
             backgroundClip: "text",
             WebkitBackgroundClip: "text",
             color: "transparent",
@@ -426,13 +428,22 @@ export const Post = () => {
 
       {/* Posts Grid */}
       {filteredPosts.length > 0 ? (
-        <Grid container spacing={{ xs: 2, md: 3 }} sx={{ mb: 6 }}>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: {
+              xs: "1fr",
+              sm: "repeat(2, 1fr)",
+              lg: "repeat(3, 1fr)",
+            },
+            gap: { xs: 2, md: 3 },
+            mb: 6,
+          }}
+        >
           {filteredPosts.map((post) => (
-            <Grid item xs={12} sm={6} lg={4} key={post.id}>
-              <PostCard post={post} />
-            </Grid>
+            <PostCard key={post.id} post={post} />
           ))}
-        </Grid>
+        </Box>
       ) : (
         <Card sx={{ textAlign: "center", py: 8, borderRadius: 3 }}>
           <CardContent>

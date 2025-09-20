@@ -3,48 +3,56 @@
  */
 
 import { useState, useEffect } from "react";
-import { api } from "@/api";
-import { postState, IPost } from "@/store/post";
+import { getPostDetail } from "@/utils/postService";
+import { IPost } from "@/store/post";
 
 interface UsePostContentResult {
   post: IPost | null;
   content: string;
   loading: boolean;
   error: string | null;
+  isFromMock: boolean;
   refetch: () => Promise<void>;
 }
 
 export function usePostContent(postId: number): UsePostContentResult {
+  const [post, setPost] = useState<IPost | null>(null);
   const [content, setContent] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-
-  // 从 store 获取文章基本信息
-  const postFromStore = postState.postList.find((p) => p.id === postId);
+  const [isFromMock, setIsFromMock] = useState<boolean>(false);
 
   const fetchContent = async () => {
-    if (!postFromStore) {
-      setError("文章不存在");
-      setLoading(false);
-      return;
-    }
-
     try {
       setLoading(true);
       setError(null);
 
-      // 从 API 获取文章内容
-      const response = await api.post.getDetail(postId);
-      const fetchedContent = response.data.content || response.data.body || "";
+      // 使用新的 postService 获取文章详情
+      const result = await getPostDetail(postId);
 
-      setContent(fetchedContent);
+      if (result.data) {
+        const fetchedContent = result.data.content || result.data.body || "";
+
+        setPost({
+          ...result.data,
+          content: fetchedContent,
+          body: fetchedContent,
+        });
+        setContent(fetchedContent);
+        setError(result.error);
+        setIsFromMock(result.isFromMock);
+      } else {
+        setPost(null);
+        setContent("");
+        setError(result.error || "文章不存在");
+        setIsFromMock(result.isFromMock);
+      }
     } catch (err) {
       console.error("获取文章内容失败:", err);
       setError("获取文章内容失败");
-
-      // 使用 store 中的内容作为备用
-      const fallbackContent = postFromStore.content || postFromStore.body || "";
-      setContent(fallbackContent);
+      setPost(null);
+      setContent("");
+      setIsFromMock(false);
     } finally {
       setLoading(false);
     }
@@ -54,20 +62,12 @@ export function usePostContent(postId: number): UsePostContentResult {
     fetchContent();
   }, [postId]);
 
-  // 合并 store 数据和获取的内容
-  const post = postFromStore
-    ? {
-        ...postFromStore,
-        content,
-        body: content,
-      }
-    : null;
-
   return {
     post,
     content,
     loading,
     error,
+    isFromMock,
     refetch: fetchContent,
   };
 }

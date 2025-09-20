@@ -35,10 +35,7 @@ export default function Home() {
       component="main"
       sx={{
         minHeight: "100vh",
-        background: (theme) =>
-          theme.palette.mode === "light"
-            ? "linear-gradient(to bottom, #f8fafc, #f1f5f9)"
-            : "linear-gradient(to bottom, #0f172a, #1e293b)",
+        background: "postBackground",
       }}
     >
       <Container

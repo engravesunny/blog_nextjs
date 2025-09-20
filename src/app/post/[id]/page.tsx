@@ -6,6 +6,28 @@ import { postState } from "@/store/post";
 import { PostDetailClient } from "./PostDetailClient";
 import { Icons } from "@/components/icons";
 import { getPostContent } from "@/utils/getPostContent";
+import {
+  Box,
+  Container,
+  Typography,
+  Button,
+  Card,
+  CardContent,
+  Chip,
+  IconButton,
+  Stack,
+  Divider,
+} from "@mui/material";
+import {
+  ArrowBack as ArrowBackIcon,
+  Person as PersonIcon,
+  CalendarToday as CalendarIcon,
+  AccessTime as ClockIcon,
+  Visibility as EyeIcon,
+  Twitter as TwitterIcon,
+  LinkedIn as LinkedInIcon,
+  Share as ShareIcon,
+} from "@mui/icons-material";
 
 // 生成动态 SEO metadata
 export async function generateMetadata({
@@ -96,9 +118,21 @@ export async function generateMetadata({
 
 // 生成静态路径（可选，用于静态生成）
 export async function generateStaticParams() {
-  return postState.postList.map((post) => ({
-    id: post.id.toString(),
-  }));
+  // 在构建时，我们可以返回一个空数组或预定义的路径
+  // 这样可以避免依赖客户端状态，让路由在运行时动态生成
+  try {
+    // 如果有 API 可以获取文章列表，使用 API
+    // const posts = await api.post.getList();
+    // return posts.data.list.map((post) => ({
+    //   id: post.id.toString(),
+    // }));
+
+    // 暂时返回空数组，让所有路由都在运行时生成
+    return [];
+  } catch (error) {
+    console.warn("Failed to generate static params:", error);
+    return [];
+  }
 }
 
 export default async function PostDetailPage({
@@ -195,71 +229,196 @@ export default async function PostDetailPage({
         }}
       />
 
-      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-        <div className="container mx-auto px-4 py-8 max-w-4xl">
+      <Box
+        sx={{
+          minHeight: "100vh",
+          background: "postBackground",
+        }}
+      >
+        <Container
+          maxWidth="lg"
+          sx={{ py: { xs: 4, md: 6 }, px: { xs: 2, sm: 3, md: 4 } }}
+        >
           {/* 返回按钮 */}
-          <Link
+          <Button
+            component={Link}
             href="/"
-            className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-8 transition-colors"
+            startIcon={<ArrowBackIcon />}
+            sx={{
+              color: "text.secondary",
+              mb: 4,
+              "&:hover": {
+                color: "text.primary",
+                backgroundColor: "action.hover",
+              },
+              transition: "all 0.2s ease",
+            }}
           >
-            <Icons.ChevronLeft className="w-5 h-5" />
             返回
-          </Link>
+          </Button>
 
           {/* 文章头部 */}
-          <article className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden mb-8">
+          <Card
+            component="article"
+            sx={{
+              borderRadius: 3,
+              boxShadow: 1,
+              border: 1,
+              borderColor: "divider",
+              overflow: "hidden",
+              mb: 4,
+            }}
+          >
             {/* 封面图片 */}
             {post.coverImage && (
-              <div className="aspect-video bg-gradient-to-r from-blue-500 to-purple-600 relative">
-                <div className="absolute inset-0 bg-black/20"></div>
-                <div className="absolute bottom-6 left-6 right-6">
-                  <span className="inline-block px-3 py-1 bg-white/90 dark:bg-gray-800/90 text-sm font-medium rounded-full text-gray-800 dark:text-gray-200 mb-4">
-                    {post.category}
-                  </span>
-                  <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
+              <Box
+                sx={{
+                  aspectRatio: "16/9",
+                  background: "postCover",
+                  position: "relative",
+                  display: "flex",
+                  alignItems: "flex-end",
+                  p: 3,
+                }}
+              >
+                <Box
+                  sx={{
+                    position: "absolute",
+                    inset: 0,
+                    backgroundColor: "action.disabled",
+                    opacity: 0.2,
+                  }}
+                />
+                <Box sx={{ position: "relative", zIndex: 1 }}>
+                  <Chip
+                    label={post.category}
+                    size="small"
+                    sx={{
+                      backgroundColor: "background.paper",
+                      color: "text.primary",
+                      fontWeight: 500,
+                      opacity: 0.9,
+                      mb: 2,
+                    }}
+                  />
+                  <Typography
+                    variant="h3"
+                    component="h1"
+                    sx={{
+                      fontWeight: 700,
+                      color: "common.white",
+                      fontSize: { xs: "1.875rem", md: "2.25rem" },
+                    }}
+                  >
                     {post.title}
-                  </h1>
-                </div>
-              </div>
+                  </Typography>
+                </Box>
+              </Box>
             )}
 
-            <div className="p-8">
+            <CardContent sx={{ p: 4 }}>
               {/* 如果没有封面图片，显示标题 */}
               {!post.coverImage && (
-                <div className="mb-8">
-                  <span className="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-sm font-medium rounded-full mb-4">
-                    {post.category}
-                  </span>
-                  <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                <Box sx={{ mb: 4 }}>
+                  <Chip
+                    label={post.category}
+                    size="small"
+                    color="primary"
+                    variant="outlined"
+                    sx={{
+                      mb: 2,
+                      borderRadius: 3,
+                    }}
+                  />
+                  <Typography
+                    variant="h3"
+                    component="h1"
+                    sx={{
+                      fontWeight: 700,
+                      color: "text.primary",
+                      fontSize: { xs: "1.875rem", md: "2.25rem" },
+                      mb: 2,
+                    }}
+                  >
                     {post.title}
-                  </h1>
-                </div>
+                  </Typography>
+                </Box>
               )}
 
               {/* 文章元信息 */}
-              <div className="flex flex-wrap items-center gap-6 text-sm text-gray-500 dark:text-gray-400 mb-8 pb-8 border-b border-gray-200 dark:border-gray-700">
-                <div className="flex items-center gap-2">
-                  <Icons.User className="w-4 h-4" />
-                  <span>{post.author}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Icons.Calendar className="w-4 h-4" />
-                  <time dateTime={post.createdAt}>
+              <Stack
+                direction="row"
+                spacing={3}
+                flexWrap="wrap"
+                sx={{
+                  mb: 4,
+                  pb: 4,
+                  borderBottom: 1,
+                  borderColor: "divider",
+                }}
+              >
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <PersonIcon sx={{ fontSize: 16, color: "text.secondary" }} />
+                  <Typography variant="body2" color="text.secondary">
+                    {post.author}
+                  </Typography>
+                </Stack>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <CalendarIcon
+                    sx={{ fontSize: 16, color: "text.secondary" }}
+                  />
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    component="time"
+                    dateTime={post.createdAt}
+                  >
                     {formatDate(post.createdAt)}
-                  </time>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Icons.Clock className="w-4 h-4" />
-                  <span>{post.readTime} 分钟阅读</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Icons.Eye className="w-4 h-4" />
-                  <span>{post.views} 次浏览</span>
-                </div>
-              </div>
+                  </Typography>
+                </Stack>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <ClockIcon sx={{ fontSize: 16, color: "text.secondary" }} />
+                  <Typography variant="body2" color="text.secondary">
+                    {post.readTime} 分钟阅读
+                  </Typography>
+                </Stack>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <EyeIcon sx={{ fontSize: 16, color: "text.secondary" }} />
+                  <Typography variant="body2" color="text.secondary">
+                    {post.views} 次浏览
+                  </Typography>
+                </Stack>
+              </Stack>
 
               {/* 文章内容 */}
-              <div className="prose prose-lg dark:prose-invert max-w-none mb-8">
+              <Box
+                sx={{
+                  mb: 4,
+                  "& p": {
+                    color: "text.primary",
+                    lineHeight: 1.7,
+                    mb: 2,
+                  },
+                  "& h1, & h2, & h3, & h4, & h5, & h6": {
+                    color: "text.primary",
+                    fontWeight: 600,
+                    mt: 3,
+                    mb: 2,
+                  },
+                  "& a": {
+                    color: "primary.main",
+                    textDecoration: "underline",
+                  },
+                  "& code": {
+                    backgroundColor: "action.hover",
+                    color: "text.primary",
+                    px: 1,
+                    py: 0.5,
+                    borderRadius: 1,
+                    fontSize: "0.875rem",
+                  },
+                }}
+              >
                 {post.content ? (
                   <div
                     dangerouslySetInnerHTML={{
@@ -267,40 +426,94 @@ export default async function PostDetailPage({
                     }}
                   />
                 ) : (
-                  <p>{post.body}</p>
+                  <Typography
+                    variant="body1"
+                    color="text.primary"
+                    sx={{ lineHeight: 1.7 }}
+                  >
+                    {post.body}
+                  </Typography>
                 )}
-              </div>
+              </Box>
 
               {/* 标签 */}
-              <div className="flex flex-wrap gap-2 mb-8">
+              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 4 }}>
                 {post.tags.map((tag, index) => (
-                  <Link
+                  <Chip
                     key={index}
+                    label={`#${tag}`}
+                    component={Link}
                     href={`/?tag=${encodeURIComponent(tag)}`}
-                    className="inline-block px-3 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-sm rounded-md font-medium hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors"
-                  >
-                    #{tag}
-                  </Link>
+                    clickable
+                    variant="outlined"
+                    size="small"
+                    sx={{
+                      borderColor: "primary.main",
+                      color: "primary.main",
+                      "&:hover": {
+                        backgroundColor: "primary.light",
+                        color: "primary.contrastText",
+                      },
+                      transition: "all 0.2s ease",
+                    }}
+                  />
                 ))}
-              </div>
+              </Box>
 
               {/* 分享按钮 */}
-              <div className="flex items-center gap-4 pt-8 border-t border-gray-200 dark:border-gray-700">
-                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              <Stack
+                direction="row"
+                spacing={2}
+                alignItems="center"
+                sx={{
+                  pt: 4,
+                  borderTop: 1,
+                  borderColor: "divider",
+                }}
+              >
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ fontWeight: 500 }}
+                >
                   分享到：
-                </span>
-                <button className="p-2 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
-                  <Icons.Twitter className="w-5 h-5" />
-                </button>
-                <button className="p-2 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
-                  <Icons.LinkedIn className="w-5 h-5" />
-                </button>
-                <button className="p-2 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">
-                  <Icons.Share className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
-          </article>
+                </Typography>
+                <IconButton
+                  sx={{
+                    color: "text.secondary",
+                    "&:hover": {
+                      color: "primary.main",
+                      backgroundColor: "action.hover",
+                    },
+                  }}
+                >
+                  <TwitterIcon />
+                </IconButton>
+                <IconButton
+                  sx={{
+                    color: "text.secondary",
+                    "&:hover": {
+                      color: "primary.main",
+                      backgroundColor: "action.hover",
+                    },
+                  }}
+                >
+                  <LinkedInIcon />
+                </IconButton>
+                <IconButton
+                  sx={{
+                    color: "text.secondary",
+                    "&:hover": {
+                      color: "primary.main",
+                      backgroundColor: "action.hover",
+                    },
+                  }}
+                >
+                  <ShareIcon />
+                </IconButton>
+              </Stack>
+            </CardContent>
+          </Card>
 
           {/* 客户端交互组件 */}
           <PostDetailClient
@@ -311,36 +524,109 @@ export default async function PostDetailPage({
 
           {/* 相关文章 */}
           {relatedPosts.length > 0 && (
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-8">
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-                相关文章
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {relatedPosts.map((relatedPost) => (
-                  <Link
-                    key={relatedPost.id}
-                    href={`/post/${relatedPost.id}`}
-                    className="group block p-4 border border-gray-200 dark:border-gray-600 rounded-lg hover:border-blue-300 dark:hover:border-blue-600 transition-colors"
-                  >
-                    <h4 className="font-medium text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 mb-2 line-clamp-2">
-                      {relatedPost.title}
-                    </h4>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-3">
-                      {relatedPost.excerpt || relatedPost.body}
-                    </p>
-                    <div className="flex items-center gap-4 mt-3 text-xs text-gray-400">
-                      <time dateTime={relatedPost.createdAt}>
-                        {formatDate(relatedPost.createdAt)}
-                      </time>
-                      <span>{relatedPost.readTime} 分钟</span>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
+            <Card
+              sx={{
+                borderRadius: 3,
+                boxShadow: 1,
+                border: 1,
+                borderColor: "divider",
+              }}
+            >
+              <CardContent sx={{ p: 4 }}>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    fontWeight: 700,
+                    color: "text.primary",
+                    mb: 3,
+                  }}
+                >
+                  相关文章
+                </Typography>
+                <Box
+                  sx={{
+                    display: "grid",
+                    gridTemplateColumns: {
+                      xs: "1fr",
+                      md: "repeat(3, 1fr)",
+                    },
+                    gap: 3,
+                  }}
+                >
+                  {relatedPosts.map((relatedPost) => (
+                    <Card
+                      key={relatedPost.id}
+                      component={Link}
+                      href={`/post/${relatedPost.id}`}
+                      sx={{
+                        p: 2,
+                        border: 1,
+                        borderColor: "divider",
+                        borderRadius: 2,
+                        textDecoration: "none",
+                        display: "block",
+                        transition: "all 0.2s ease",
+                        "&:hover": {
+                          borderColor: "primary.main",
+                          boxShadow: 2,
+                        },
+                      }}
+                    >
+                      <Typography
+                        variant="subtitle1"
+                        sx={{
+                          fontWeight: 500,
+                          color: "text.primary",
+                          mb: 1,
+                          display: "-webkit-box",
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: "vertical",
+                          overflow: "hidden",
+                          "&:hover": {
+                            color: "primary.main",
+                          },
+                        }}
+                      >
+                        {relatedPost.title}
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{
+                          mb: 1.5,
+                          display: "-webkit-box",
+                          WebkitLineClamp: 3,
+                          WebkitBoxOrient: "vertical",
+                          overflow: "hidden",
+                        }}
+                      >
+                        {relatedPost.excerpt || relatedPost.body}
+                      </Typography>
+                      <Stack
+                        direction="row"
+                        spacing={2}
+                        sx={{ fontSize: "0.75rem" }}
+                      >
+                        <Typography
+                          variant="caption"
+                          color="text.secondary"
+                          component="time"
+                          dateTime={relatedPost.createdAt}
+                        >
+                          {formatDate(relatedPost.createdAt)}
+                        </Typography>
+                        <Typography variant="caption" color="text.secondary">
+                          {relatedPost.readTime} 分钟
+                        </Typography>
+                      </Stack>
+                    </Card>
+                  ))}
+                </Box>
+              </CardContent>
+            </Card>
           )}
-        </div>
-      </div>
+        </Container>
+      </Box>
     </>
   );
 }

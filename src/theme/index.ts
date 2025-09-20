@@ -1,4 +1,5 @@
 import { createTheme, ThemeOptions } from "@mui/material/styles";
+import "./types"; // 导入类型扩展
 
 // 定义颜色 tokens
 const colorTokens = {
@@ -179,36 +180,39 @@ export const lightTheme = createTheme({
       main: colorTokens.primary[600],
       light: colorTokens.primary[400],
       dark: colorTokens.primary[800],
-      contrastText: "#ffffff",
+      contrastText: colorTokens.secondary[50],
     },
     secondary: {
       main: colorTokens.secondary[600],
       light: colorTokens.secondary[400],
       dark: colorTokens.secondary[800],
-      contrastText: "#ffffff",
+      contrastText: colorTokens.secondary[50],
     },
     success: {
       main: colorTokens.success[600],
       light: colorTokens.success[400],
       dark: colorTokens.success[800],
-      contrastText: "#ffffff",
+      contrastText: colorTokens.secondary[50],
     },
     warning: {
       main: colorTokens.warning[600],
       light: colorTokens.warning[400],
       dark: colorTokens.warning[800],
-      contrastText: "#ffffff",
+      contrastText: colorTokens.secondary[50],
     },
     error: {
       main: colorTokens.error[600],
       light: colorTokens.error[400],
       dark: colorTokens.error[800],
-      contrastText: "#ffffff",
+      contrastText: colorTokens.secondary[50],
     },
     background: {
-      default: "#ffffff",
-      paper: "#ffffff",
+      default: colorTokens.secondary[50],
+      paper: colorTokens.secondary[50],
     },
+    // 自定义背景 tokens
+    postBackground: `linear-gradient(to bottom, ${colorTokens.secondary[50]}, ${colorTokens.secondary[100]})`,
+    postCover: `linear-gradient(135deg, ${colorTokens.primary[600]} 0%, ${colorTokens.secondary[600]} 100%)`,
     text: {
       primary: colorTokens.secondary[900],
       secondary: colorTokens.secondary[600],
@@ -257,6 +261,9 @@ export const darkTheme = createTheme({
       default: colorTokens.secondary[900],
       paper: colorTokens.secondary[800],
     },
+    // 自定义背景 tokens
+    postBackground: `linear-gradient(to bottom, ${colorTokens.secondary[900]}, ${colorTokens.secondary[800]})`,
+    postCover: `linear-gradient(135deg, ${colorTokens.primary[400]} 0%, ${colorTokens.secondary[400]} 100%)`,
     text: {
       primary: colorTokens.secondary[50],
       secondary: colorTokens.secondary[300],

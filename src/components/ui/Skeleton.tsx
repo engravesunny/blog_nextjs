@@ -1,151 +1,258 @@
-import { cn } from "@/utils/cn";
+import { Box, BoxProps } from "@mui/material";
 
-interface SkeletonProps {
+interface SkeletonProps extends Omit<BoxProps, "children"> {
   className?: string;
 }
 
-export function Skeleton({ className }: SkeletonProps) {
+export function Skeleton({ className, sx, ...props }: SkeletonProps) {
   return (
-    <div
-      className={cn(
-        "animate-pulse rounded-md bg-gray-200 dark:bg-gray-700",
-        className
-      )}
+    <Box
+      className={className}
+      sx={{
+        backgroundColor: "action.hover",
+        borderRadius: 1,
+        animation: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "@keyframes pulse": {
+          "0%, 100%": {
+            opacity: 1,
+          },
+          "50%": {
+            opacity: 0.5,
+          },
+        },
+        ...sx,
+      }}
+      {...props}
     />
   );
 }
 
 // 预定义的骨架组件
-export function SkeletonText({ className }: SkeletonProps) {
-  return <Skeleton className={cn("h-4", className)} />;
-}
-
-export function SkeletonTitle({ className }: SkeletonProps) {
-  return <Skeleton className={cn("h-6", className)} />;
-}
-
-export function SkeletonHeading({ className }: SkeletonProps) {
-  return <Skeleton className={cn("h-8", className)} />;
-}
-
-export function SkeletonButton({ className }: SkeletonProps) {
-  return <Skeleton className={cn("h-10 w-24", className)} />;
-}
-
-export function SkeletonAvatar({ className }: SkeletonProps) {
-  return <Skeleton className={cn("h-12 w-12 rounded-full", className)} />;
-}
-
-export function SkeletonCard({ className }: SkeletonProps) {
+export function SkeletonText({ className, ...props }: SkeletonProps) {
   return (
-    <div className={cn("space-y-3", className)}>
-      <Skeleton className="h-[200px] w-full rounded-xl" />
-      <div className="space-y-2">
-        <Skeleton className="h-4 w-[250px]" />
-        <Skeleton className="h-4 w-[200px]" />
-      </div>
-    </div>
+    <Skeleton
+      className={className}
+      sx={{ height: 16, ...props.sx }}
+      {...props}
+    />
+  );
+}
+
+export function SkeletonTitle({ className, ...props }: SkeletonProps) {
+  return (
+    <Skeleton
+      className={className}
+      sx={{ height: 24, ...props.sx }}
+      {...props}
+    />
+  );
+}
+
+export function SkeletonHeading({ className, ...props }: SkeletonProps) {
+  return (
+    <Skeleton
+      className={className}
+      sx={{ height: 32, ...props.sx }}
+      {...props}
+    />
+  );
+}
+
+export function SkeletonButton({ className, ...props }: SkeletonProps) {
+  return (
+    <Skeleton
+      className={className}
+      sx={{ height: 40, width: 96, ...props.sx }}
+      {...props}
+    />
+  );
+}
+
+export function SkeletonAvatar({ className, ...props }: SkeletonProps) {
+  return (
+    <Skeleton
+      className={className}
+      sx={{ height: 48, width: 48, borderRadius: "50%", ...props.sx }}
+      {...props}
+    />
+  );
+}
+
+export function SkeletonCard({ className, sx, ...props }: SkeletonProps) {
+  return (
+    <Box
+      className={className}
+      sx={{ display: "flex", flexDirection: "column", gap: 3, ...sx }}
+      {...props}
+    >
+      <Skeleton sx={{ height: 200, width: "100%", borderRadius: 3 }} />
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        <Skeleton sx={{ height: 16, width: 250 }} />
+        <Skeleton sx={{ height: 16, width: 200 }} />
+      </Box>
+    </Box>
   );
 }
 
 // 文章卡片骨架
 export function SkeletonPostCard() {
   return (
-    <article className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
+    <Box
+      component="article"
+      sx={{
+        backgroundColor: "background.paper",
+        borderRadius: 3,
+        boxShadow: 1,
+        border: 1,
+        borderColor: "divider",
+        overflow: "hidden",
+      }}
+    >
       {/* 封面图片骨架 */}
-      <Skeleton className="aspect-video w-full" />
+      <Skeleton sx={{ aspectRatio: "16/9", width: "100%" }} />
 
-      <div className="p-6">
+      <Box sx={{ p: 3 }}>
         {/* 元信息骨架 */}
-        <div className="flex items-center gap-4 mb-3">
-          <SkeletonText className="w-16" />
-          <SkeletonText className="w-20" />
-          <SkeletonText className="w-16" />
-        </div>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 1.5 }}>
+          <SkeletonText sx={{ width: 64 }} />
+          <SkeletonText sx={{ width: 80 }} />
+          <SkeletonText sx={{ width: 64 }} />
+        </Box>
 
         {/* 标题骨架 */}
-        <SkeletonTitle className="mb-3" />
+        <SkeletonTitle sx={{ mb: 1.5 }} />
 
         {/* 摘要骨架 */}
-        <div className="space-y-2 mb-4">
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 1, mb: 2 }}>
           <SkeletonText />
-          <SkeletonText className="w-3/4" />
-        </div>
+          <SkeletonText sx={{ width: "75%" }} />
+        </Box>
 
         {/* 标签骨架 */}
-        <div className="flex flex-wrap gap-2 mb-4">
+        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 2 }}>
           {Array.from({ length: 3 }).map((_, index) => (
-            <Skeleton key={index} className="h-6 w-16 rounded-md" />
+            <Skeleton
+              key={index}
+              sx={{ height: 24, width: 64, borderRadius: 1 }}
+            />
           ))}
-        </div>
+        </Box>
 
         {/* 底部操作栏骨架 */}
-        <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700">
-          <div className="flex items-center gap-4">
-            <SkeletonText className="w-12" />
-            <SkeletonText className="w-12" />
-          </div>
-          <SkeletonText className="w-20" />
-        </div>
-      </div>
-    </article>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            pt: 2,
+            borderTop: 1,
+            borderColor: "divider",
+          }}
+        >
+          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+            <SkeletonText sx={{ width: 48 }} />
+            <SkeletonText sx={{ width: 48 }} />
+          </Box>
+          <SkeletonText sx={{ width: 80 }} />
+        </Box>
+      </Box>
+    </Box>
   );
 }
 
 // 文章详情骨架
 export function SkeletonPostDetail() {
   return (
-    <article className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
+    <Box
+      component="article"
+      sx={{
+        backgroundColor: "background.paper",
+        borderRadius: 3,
+        boxShadow: 1,
+        border: 1,
+        borderColor: "divider",
+        overflow: "hidden",
+      }}
+    >
       {/* 封面图片骨架 */}
-      <Skeleton className="aspect-video w-full" />
+      <Skeleton sx={{ aspectRatio: "16/9", width: "100%" }} />
 
-      <div className="p-8">
+      <Box sx={{ p: 4 }}>
         {/* 分类标签骨架 */}
-        <Skeleton className="h-6 w-20 rounded-full mb-4" />
+        <Skeleton sx={{ height: 24, width: 80, borderRadius: 3, mb: 2 }} />
 
         {/* 标题骨架 */}
-        <div className="mb-4">
-          <SkeletonHeading className="mb-2" />
-          <SkeletonHeading className="w-3/4" />
-        </div>
+        <Box sx={{ mb: 2 }}>
+          <SkeletonHeading sx={{ mb: 1 }} />
+          <SkeletonHeading sx={{ width: "75%" }} />
+        </Box>
 
         {/* 文章元信息骨架 */}
-        <div className="flex flex-wrap items-center gap-6 mb-8 pb-8 border-b border-gray-200 dark:border-gray-700">
+        <Box
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            alignItems: "center",
+            gap: 3,
+            mb: 4,
+            pb: 4,
+            borderBottom: 1,
+            borderColor: "divider",
+          }}
+        >
           {Array.from({ length: 4 }).map((_, index) => (
-            <div key={index} className="flex items-center gap-2">
-              <Skeleton className="h-4 w-4" />
-              <SkeletonText className="w-16" />
-            </div>
+            <Box
+              key={index}
+              sx={{ display: "flex", alignItems: "center", gap: 1 }}
+            >
+              <Skeleton sx={{ height: 16, width: 16 }} />
+              <SkeletonText sx={{ width: 64 }} />
+            </Box>
           ))}
-        </div>
+        </Box>
 
         {/* 文章内容骨架 */}
-        <div className="prose prose-lg max-w-none mb-8">
-          <div className="space-y-4">
+        <Box sx={{ mb: 4 }}>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
             {Array.from({ length: 8 }).map((_, index) => (
-              <div key={index} className="space-y-2">
+              <Box
+                key={index}
+                sx={{ display: "flex", flexDirection: "column", gap: 1 }}
+              >
                 <SkeletonText />
-                <SkeletonText className="w-5/6" />
-                <SkeletonText className="w-4/5" />
-              </div>
+                <SkeletonText sx={{ width: "83%" }} />
+                <SkeletonText sx={{ width: "80%" }} />
+              </Box>
             ))}
-          </div>
-        </div>
+          </Box>
+        </Box>
 
         {/* 标签骨架 */}
-        <div className="flex flex-wrap gap-2 mb-8">
+        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 4 }}>
           {Array.from({ length: 4 }).map((_, index) => (
-            <Skeleton key={index} className="h-6 w-16 rounded-md" />
+            <Skeleton
+              key={index}
+              sx={{ height: 24, width: 64, borderRadius: 1 }}
+            />
           ))}
-        </div>
+        </Box>
 
         {/* 互动按钮骨架 */}
-        <div className="flex items-center gap-4 pt-6 border-t border-gray-200 dark:border-gray-700">
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 2,
+            pt: 3,
+            borderTop: 1,
+            borderColor: "divider",
+          }}
+        >
           <SkeletonButton />
           <SkeletonButton />
           <SkeletonButton />
-        </div>
-      </div>
-    </article>
+        </Box>
+      </Box>
+    </Box>
   );
 }

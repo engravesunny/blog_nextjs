@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import {
   Box,
@@ -8,7 +10,6 @@ import {
   Button,
   IconButton,
   Divider,
-  useTheme,
 } from "@mui/material";
 import {
   Twitter as TwitterIcon,
@@ -19,29 +20,27 @@ import {
 import { Icons } from "@/components/icons";
 
 export function Footer() {
-  const theme = useTheme();
-
   const socialLinks = [
-    { icon: TwitterIcon, href: "#", label: "Twitter" },
-    { icon: InstagramIcon, href: "#", label: "Instagram" },
-    { icon: LinkedInIcon, href: "#", label: "LinkedIn" },
-    { icon: GitHubIcon, href: "#", label: "GitHub" },
+    { icon: TwitterIcon, href: "https://twitter.com", label: "Twitter" },
+    { icon: InstagramIcon, href: "https://instagram.com", label: "Instagram" },
+    { icon: LinkedInIcon, href: "https://linkedin.com", label: "LinkedIn" },
+    { icon: GitHubIcon, href: "https://github.com", label: "GitHub" },
   ];
 
   const quickLinks = [
     { label: "首页", href: "/" },
-    { label: "最新文章", href: "#" },
-    { label: "热门文章", href: "#" },
-    { label: "关于我", href: "#" },
-    { label: "联系方式", href: "#" },
+    { label: "最新文章", href: "/posts/latest" },
+    { label: "热门文章", href: "/posts/popular" },
+    { label: "关于我", href: "/about" },
+    { label: "联系方式", href: "/contact" },
   ];
 
   return (
     <Box
       component="footer"
       sx={{
-        backgroundColor: "grey.800",
-        color: "common.white",
+        backgroundColor: "background.paper",
+        color: "text.primary",
         py: { xs: 6, md: 8 },
         mt: { xs: 10, md: 15 },
       }}
@@ -49,7 +48,7 @@ export function Footer() {
       <Container maxWidth="lg">
         <Grid container spacing={{ xs: 4, md: 6 }}>
           {/* Brand Section */}
-          <Grid item xs={12} md={4}>
+          <Grid size={{ xs: 12, md: 4 }}>
             <Box sx={{ mb: 3 }}>
               <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
                 <Icons.Logo
@@ -67,7 +66,7 @@ export function Footer() {
               <Typography
                 variant="body2"
                 sx={{
-                  color: "grey.400",
+                  color: "text.secondary",
                   mb: 3,
                   lineHeight: 1.6,
                 }}
@@ -83,10 +82,10 @@ export function Footer() {
                       component={Link}
                       href={social.href}
                       sx={{
-                        color: "grey.400",
+                        color: "text.secondary",
                         "&:hover": {
-                          color: "common.white",
-                          backgroundColor: "rgba(255, 255, 255, 0.1)",
+                          color: "text.primary",
+                          backgroundColor: "action.hover",
                         },
                         transition: "all 0.2s ease",
                       }}
@@ -101,13 +100,13 @@ export function Footer() {
           </Grid>
 
           {/* Quick Links */}
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid size={{ xs: 12, sm: 6, md: 4 }}>
             <Typography
               variant="h6"
               sx={{
                 fontWeight: 700,
                 mb: 3,
-                color: "common.white",
+                color: "text.primary",
               }}
             >
               快速链接
@@ -115,15 +114,15 @@ export function Footer() {
             <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
               {quickLinks.map((link) => (
                 <Typography
-                  key={link.href}
+                  key={link.label}
                   component={Link}
                   href={link.href}
                   variant="body2"
                   sx={{
-                    color: "grey.400",
+                    color: "text.secondary",
                     textDecoration: "none",
                     "&:hover": {
-                      color: "common.white",
+                      color: "text.primary",
                     },
                     transition: "color 0.2s ease",
                   }}
@@ -135,13 +134,13 @@ export function Footer() {
           </Grid>
 
           {/* Newsletter Subscription */}
-          <Grid item xs={12} sm={6} md={4}>
+          <Grid size={{ xs: 12, sm: 6, md: 4 }}>
             <Typography
               variant="h6"
               sx={{
                 fontWeight: 700,
                 mb: 3,
-                color: "common.white",
+                color: "text.primary",
               }}
             >
               订阅更新
@@ -149,7 +148,7 @@ export function Footer() {
             <Typography
               variant="body2"
               sx={{
-                color: "grey.400",
+                color: "text.secondary",
                 mb: 3,
                 lineHeight: 1.6,
               }}
@@ -165,21 +164,21 @@ export function Footer() {
                 sx={{
                   flexGrow: 1,
                   "& .MuiOutlinedInput-root": {
-                    backgroundColor: "rgba(255, 255, 255, 0.1)",
-                    color: "common.white",
+                    backgroundColor: "action.hover",
+                    color: "text.primary",
                     "& fieldset": {
-                      borderColor: "rgba(255, 255, 255, 0.3)",
+                      borderColor: "divider",
                     },
                     "&:hover fieldset": {
-                      borderColor: "rgba(255, 255, 255, 0.5)",
+                      borderColor: "text.secondary",
                     },
                     "&.Mui-focused fieldset": {
                       borderColor: "primary.main",
                     },
                   },
                   "& .MuiInputBase-input::placeholder": {
-                    color: "rgba(255, 255, 255, 0.7)",
-                    opacity: 1,
+                    color: "text.secondary",
+                    opacity: 0.7,
                   },
                 }}
               />
@@ -203,7 +202,7 @@ export function Footer() {
         <Divider
           sx={{
             my: { xs: 4, md: 6 },
-            borderColor: "rgba(255, 255, 255, 0.2)",
+            borderColor: "divider",
           }}
         />
 
@@ -211,8 +210,9 @@ export function Footer() {
           <Typography
             variant="body2"
             sx={{
-              color: "grey.400",
+              color: "text.secondary",
               fontSize: "0.875rem",
+              opacity: 0.8,
             }}
           >
             © {new Date().getFullYear()} 我的博客. 保留所有权利.
