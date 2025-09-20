@@ -4,9 +4,51 @@ import React, { useState } from "react";
 import { useStore } from "@/store/StoreProvider";
 import { IPost } from "@/store/post";
 import Link from "next/link";
+import {
+  Box,
+  Typography,
+  Card,
+  CardContent,
+  CardMedia,
+  Button,
+  IconButton,
+  TextField,
+  Select,
+  MenuItem,
+  FormControl,
+  Chip,
+  Grid,
+  Container,
+  Collapse,
+  Divider,
+  Avatar,
+  Fab,
+  useTheme,
+  useMediaQuery,
+  InputAdornment,
+} from "@mui/material";
+import {
+  Search as SearchIcon,
+  FilterList as FilterListIcon,
+  ExpandMore as ExpandMoreIcon,
+  ExpandLess as ExpandLessIcon,
+  Person as PersonIcon,
+  CalendarToday as CalendarIcon,
+  AccessTime as AccessTimeIcon,
+  Favorite as FavoriteIcon,
+  Visibility as VisibilityIcon,
+  ArrowForward as ArrowForwardIcon,
+  Add as AddIcon,
+  Sort as SortIcon,
+  Article as ArticleIcon,
+} from "@mui/icons-material";
 
 export const Post = () => {
   const store = useStore();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const isTablet = useMediaQuery(theme.breakpoints.down("lg"));
+
   const filteredPosts = store.getState().getFilteredPosts();
   const categories = store.use.postState.categories;
   const allTags = store.use.postState.allTags;
@@ -34,396 +76,394 @@ export const Post = () => {
   };
 
   const PostCard = ({ post }: { post: IPost }) => (
-    <article className="bg-white dark:bg-gray-800 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700 group">
+    <Card
+      sx={{
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        transition: "all 0.3s ease",
+        "&:hover": {
+          transform: "translateY(-4px)",
+          boxShadow: theme.shadows[8],
+        },
+        borderRadius: 3,
+        overflow: "hidden",
+      }}
+    >
       {post.coverImage && (
-        <div className="aspect-video bg-gradient-to-r from-blue-500 to-purple-600 relative overflow-hidden">
-          <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300"></div>
-          <div className="absolute bottom-4 left-4 right-4">
-            <span className="inline-block px-3 py-1 bg-white/90 dark:bg-gray-800/90 text-sm font-medium rounded-full text-gray-800 dark:text-gray-200">
-              {post.category}
-            </span>
-          </div>
-        </div>
+        <CardMedia
+          sx={{
+            height: 200,
+            background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+            position: "relative",
+            display: "flex",
+            alignItems: "flex-end",
+            p: 2,
+          }}
+        >
+          <Chip
+            label={post.category}
+            size="small"
+            sx={{
+              backgroundColor: "rgba(255, 255, 255, 0.9)",
+              color: "text.primary",
+              fontWeight: 500,
+            }}
+          />
+        </CardMedia>
       )}
 
-      <div className="p-6">
-        <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-3">
-          <span className="flex items-center gap-1">
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-              />
-            </svg>
-            {post.author}
-          </span>
-          <span className="flex items-center gap-1">
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-              />
-            </svg>
-            {formatDate(post.createdAt)}
-          </span>
-          <span className="flex items-center gap-1">
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            {post.readTime} 分钟阅读
-          </span>
-        </div>
+      <CardContent sx={{ flexGrow: 1, p: 3 }}>
+        {/* Meta Information */}
+        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2, mb: 2 }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+            <PersonIcon sx={{ fontSize: 16, color: "text.secondary" }} />
+            <Typography variant="caption" color="text.secondary">
+              {post.author}
+            </Typography>
+          </Box>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+            <CalendarIcon sx={{ fontSize: 16, color: "text.secondary" }} />
+            <Typography variant="caption" color="text.secondary">
+              {formatDate(post.createdAt)}
+            </Typography>
+          </Box>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+            <AccessTimeIcon sx={{ fontSize: 16, color: "text.secondary" }} />
+            <Typography variant="caption" color="text.secondary">
+              {post.readTime} 分钟阅读
+            </Typography>
+          </Box>
+        </Box>
 
-        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200">
-          <Link href={`/post/${post.id}`} className="hover:underline">
-            {post.title}
-          </Link>
-        </h2>
+        {/* Title */}
+        <Typography
+          variant="h6"
+          component={Link}
+          href={`/post/${post.id}`}
+          sx={{
+            fontWeight: 600,
+            color: "text.primary",
+            textDecoration: "none",
+            display: "block",
+            mb: 2,
+            "&:hover": {
+              color: "primary.main",
+            },
+            transition: "color 0.2s ease",
+          }}
+        >
+          {post.title}
+        </Typography>
 
-        <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
+        {/* Excerpt */}
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          sx={{
+            mb: 2,
+            display: "-webkit-box",
+            WebkitLineClamp: 3,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+            lineHeight: 1.6,
+          }}
+        >
           {post.excerpt || post.body}
-        </p>
+        </Typography>
 
-        <div className="flex flex-wrap gap-2 mb-4">
+        {/* Tags */}
+        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 3 }}>
           {post.tags.map((tag, index) => (
-            <span
+            <Chip
               key={index}
-              className="inline-block px-2 py-1 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs rounded-md font-medium hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors cursor-pointer"
+              label={`#${tag}`}
+              size="small"
+              variant="outlined"
               onClick={() => handleTagToggle(tag)}
-            >
-              #{tag}
-            </span>
+              sx={{
+                fontSize: "0.75rem",
+                height: 24,
+                cursor: "pointer",
+                "&:hover": {
+                  backgroundColor: "primary.light",
+                  color: "primary.contrastText",
+                },
+                transition: "all 0.2s ease",
+              }}
+            />
           ))}
-        </div>
+        </Box>
 
-        <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700">
-          <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
-            <button
+        {/* Actions */}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            pt: 2,
+            borderTop: `1px solid ${theme.palette.divider}`,
+          }}
+        >
+          <Box sx={{ display: "flex", gap: 2 }}>
+            <Button
+              size="small"
+              startIcon={<FavoriteIcon />}
               onClick={() => store.getState().likePost(post.id)}
-              className="flex items-center gap-1 hover:text-red-500 transition-colors"
+              sx={{
+                minWidth: "auto",
+                color: "text.secondary",
+                "&:hover": {
+                  color: "error.main",
+                  backgroundColor: "transparent",
+                },
+              }}
             >
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                />
-              </svg>
               {post.likes}
-            </button>
-            <span className="flex items-center gap-1">
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                />
-              </svg>
-              {post.views}
-            </span>
-          </div>
+            </Button>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+              <VisibilityIcon sx={{ fontSize: 16, color: "text.secondary" }} />
+              <Typography variant="caption" color="text.secondary">
+                {post.views}
+              </Typography>
+            </Box>
+          </Box>
 
-          <Link
+          <Button
+            component={Link}
             href={`/post/${post.id}`}
-            className="inline-flex items-center gap-1 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium text-sm transition-colors"
+            size="small"
+            endIcon={<ArrowForwardIcon />}
             onClick={() => store.getState().incrementViews(post.id)}
+            sx={{
+              fontWeight: 500,
+              "&:hover": {
+                backgroundColor: "transparent",
+              },
+            }}
           >
             阅读更多
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </Link>
-        </div>
-      </div>
-    </article>
+          </Button>
+        </Box>
+      </CardContent>
+    </Card>
   );
 
   return (
-    <div className="max-w-7xl mx-auto">
-      {/* 页面标题 */}
-      <div className="text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+    <Container maxWidth="xl" sx={{ px: 0 }}>
+      {/* Page Header */}
+      <Box sx={{ textAlign: "center", mb: { xs: 6, md: 8 } }}>
+        <Typography
+          variant="h2"
+          sx={{
+            fontWeight: 700,
+            mb: 2,
+            fontSize: { xs: "2rem", md: "3rem" },
+            background: (theme) =>
+              theme.palette.mode === "light"
+                ? "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
+                : "linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%)",
+            backgroundClip: "text",
+            WebkitBackgroundClip: "text",
+            color: "transparent",
+          }}
+        >
           我的博客
-        </h1>
-        <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+        </Typography>
+        <Typography
+          variant="h6"
+          color="text.secondary"
+          sx={{
+            maxWidth: 600,
+            mx: "auto",
+            lineHeight: 1.6,
+            fontSize: { xs: "1rem", md: "1.25rem" },
+          }}
+        >
           分享技术见解，记录学习历程，探索前端世界的无限可能
-        </p>
-      </div>
+        </Typography>
+      </Box>
 
-      {/* 搜索和筛选栏 */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 mb-8">
-        {/* 搜索框 */}
-        <div className="relative mb-4">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <svg
-              className="h-5 w-5 text-gray-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
-          </div>
-          <input
-            type="text"
+      {/* Search and Filter Section */}
+      <Card sx={{ mb: 4, borderRadius: 3 }}>
+        <CardContent sx={{ p: { xs: 2, md: 3 } }}>
+          {/* Search Bar */}
+          <TextField
+            fullWidth
             placeholder="搜索文章标题、内容或标签..."
             value={searchQuery}
             onChange={(e) => store.getState().setSearchQuery(e.target.value)}
-            className="block w-full pl-10 pr-3 py-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon color="action" />
+                </InputAdornment>
+              ),
+            }}
+            sx={{
+              mb: 2,
+              "& .MuiOutlinedInput-root": {
+                borderRadius: 2,
+              },
+            }}
           />
-        </div>
 
-        {/* 筛选按钮 */}
-        <div className="flex items-center justify-between">
-          <button
-            onClick={() => setShowFilters(!showFilters)}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+          {/* Filter Controls */}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              flexWrap: "wrap",
+              gap: 2,
+            }}
           >
-            <svg
-              className="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+            <Button
+              startIcon={<FilterListIcon />}
+              endIcon={showFilters ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+              onClick={() => setShowFilters(!showFilters)}
+              variant="outlined"
+              sx={{ borderRadius: 2 }}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z"
-              />
-            </svg>
-            筛选选项
-            <svg
-              className={`w-4 h-4 transition-transform ${
-                showFilters ? "rotate-180" : ""
-              }`}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-          </button>
+              筛选选项
+            </Button>
 
-          {/* 排序选项 */}
-          <div className="flex items-center gap-2">
-            <select
-              value={sortBy}
-              onChange={(e) =>
-                store
-                  .getState()
-                  .setSortBy(e.target.value as "date" | "views" | "likes")
-              }
-              className="px-3 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg border-0 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="date">按日期排序</option>
-              <option value="views">按浏览量排序</option>
-              <option value="likes">按点赞数排序</option>
-            </select>
-            <button
-              onClick={() =>
-                store
-                  .getState()
-                  .setSortOrder(sortOrder === "asc" ? "desc" : "asc")
-              }
-              className="p-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
-            >
-              <svg
-                className={`w-4 h-4 transition-transform ${
-                  sortOrder === "desc" ? "rotate-180" : ""
-                }`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        {/* 筛选选项 */}
-        {showFilters && (
-          <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-600">
-            {/* 分类筛选 */}
-            <div className="mb-4">
-              <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                分类
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                <button
-                  onClick={() => store.getState().setSelectedCategory("")}
-                  className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
-                    selectedCategory === ""
-                      ? "bg-blue-600 text-white"
-                      : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
-                  }`}
+            <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
+              <FormControl size="small" sx={{ minWidth: 120 }}>
+                <Select
+                  value={sortBy}
+                  onChange={(e) =>
+                    store
+                      .getState()
+                      .setSortBy(e.target.value as "date" | "views" | "likes")
+                  }
+                  sx={{ borderRadius: 2 }}
                 >
-                  全部
-                </button>
-                {categories.map((category) => (
-                  <button
-                    key={category.id}
-                    onClick={() =>
-                      store.getState().setSelectedCategory(category.name)
-                    }
-                    className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
-                      selectedCategory === category.name
-                        ? "bg-blue-600 text-white"
-                        : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
-                    }`}
-                  >
-                    {category.name} ({category.count})
-                  </button>
-                ))}
-              </div>
-            </div>
+                  <MenuItem value="date">按日期排序</MenuItem>
+                  <MenuItem value="views">按浏览量排序</MenuItem>
+                  <MenuItem value="likes">按点赞数排序</MenuItem>
+                </Select>
+              </FormControl>
+              <IconButton
+                onClick={() =>
+                  store
+                    .getState()
+                    .setSortOrder(sortOrder === "asc" ? "desc" : "asc")
+                }
+                sx={{
+                  transform: sortOrder === "desc" ? "rotate(180deg)" : "none",
+                  transition: "transform 0.2s ease",
+                }}
+              >
+                <SortIcon />
+              </IconButton>
+            </Box>
+          </Box>
 
-            {/* 标签筛选 */}
-            <div>
-              <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                标签
-              </h3>
-              <div className="flex flex-wrap gap-2">
-                {allTags.map((tag) => (
-                  <button
-                    key={tag}
-                    onClick={() => handleTagToggle(tag)}
-                    className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
-                      selectedTags.includes(tag)
-                        ? "bg-blue-600 text-white"
-                        : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
-                    }`}
-                  >
-                    #{tag}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
+          {/* Filter Options */}
+          <Collapse in={showFilters}>
+            <Box
+              sx={{
+                mt: 3,
+                pt: 3,
+                borderTop: `1px solid ${theme.palette.divider}`,
+              }}
+            >
+              {/* Categories */}
+              <Box sx={{ mb: 3 }}>
+                <Typography variant="subtitle2" sx={{ mb: 2, fontWeight: 600 }}>
+                  分类
+                </Typography>
+                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+                  <Chip
+                    label="全部"
+                    onClick={() => store.getState().setSelectedCategory("")}
+                    color={selectedCategory === "" ? "primary" : "default"}
+                    sx={{ borderRadius: 2 }}
+                  />
+                  {categories.map((category) => (
+                    <Chip
+                      key={category.id}
+                      label={`${category.name} (${category.count})`}
+                      onClick={() =>
+                        store.getState().setSelectedCategory(category.name)
+                      }
+                      color={
+                        selectedCategory === category.name
+                          ? "primary"
+                          : "default"
+                      }
+                      sx={{ borderRadius: 2 }}
+                    />
+                  ))}
+                </Box>
+              </Box>
 
-      {/* 文章网格 */}
+              {/* Tags */}
+              <Box>
+                <Typography variant="subtitle2" sx={{ mb: 2, fontWeight: 600 }}>
+                  标签
+                </Typography>
+                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+                  {allTags.map((tag) => (
+                    <Chip
+                      key={tag}
+                      label={`#${tag}`}
+                      onClick={() => handleTagToggle(tag)}
+                      color={selectedTags.includes(tag) ? "primary" : "default"}
+                      variant={
+                        selectedTags.includes(tag) ? "filled" : "outlined"
+                      }
+                      sx={{ borderRadius: 2 }}
+                    />
+                  ))}
+                </Box>
+              </Box>
+            </Box>
+          </Collapse>
+        </CardContent>
+      </Card>
+
+      {/* Posts Grid */}
       {filteredPosts.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        <Grid container spacing={{ xs: 2, md: 3 }} sx={{ mb: 6 }}>
           {filteredPosts.map((post) => (
-            <PostCard key={post.id} post={post} />
+            <Grid item xs={12} sm={6} lg={4} key={post.id}>
+              <PostCard post={post} />
+            </Grid>
           ))}
-        </div>
+        </Grid>
       ) : (
-        <div className="text-center py-12">
-          <svg
-            className="mx-auto h-12 w-12 text-gray-400 mb-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+        <Card sx={{ textAlign: "center", py: 8, borderRadius: 3 }}>
+          <CardContent>
+            <ArticleIcon
+              sx={{ fontSize: 48, color: "text.secondary", mb: 2 }}
             />
-          </svg>
-          <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-            没有找到文章
-          </h3>
-          <p className="text-gray-500 dark:text-gray-400">
-            尝试调整搜索条件或筛选选项
-          </p>
-        </div>
+            <Typography variant="h6" sx={{ mb: 1, fontWeight: 600 }}>
+              没有找到文章
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              尝试调整搜索条件或筛选选项
+            </Typography>
+          </CardContent>
+        </Card>
       )}
 
-      {/* 快速操作按钮 */}
-      <div className="fixed bottom-8 right-8">
-        <Link
-          href="/post/new"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-full shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
-        >
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M12 4v16m8-8H4"
-            />
-          </svg>
-          写文章
-        </Link>
-      </div>
-    </div>
+      {/* Floating Action Button */}
+      <Fab
+        component={Link}
+        href="/post/new"
+        color="primary"
+        sx={{
+          position: "fixed",
+          bottom: { xs: 16, md: 24 },
+          right: { xs: 16, md: 24 },
+          zIndex: 1000,
+        }}
+        aria-label="写文章"
+      >
+        <AddIcon />
+      </Fab>
+    </Container>
   );
 };

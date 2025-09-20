@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { Post } from "@/components/post";
+import { Box, Container } from "@mui/material";
 
 export const metadata: Metadata = {
   title: "首页",
@@ -30,10 +31,25 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-      <div className="container mx-auto px-4 py-12 max-w-6xl">
+    <Box
+      component="main"
+      sx={{
+        minHeight: "100vh",
+        background: (theme) =>
+          theme.palette.mode === "light"
+            ? "linear-gradient(to bottom, #f8fafc, #f1f5f9)"
+            : "linear-gradient(to bottom, #0f172a, #1e293b)",
+      }}
+    >
+      <Container
+        maxWidth="xl"
+        sx={{
+          py: { xs: 6, md: 8 },
+          px: { xs: 2, sm: 3, md: 4 },
+        }}
+      >
         <Post />
-      </div>
-    </main>
+      </Container>
+    </Box>
   );
 }

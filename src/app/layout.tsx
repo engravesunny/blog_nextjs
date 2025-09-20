@@ -2,6 +2,7 @@ import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import RootStoreProvider from "@/store/StoreProvider";
 import { initState } from "@/store";
+import { ThemeProvider } from "@/providers/ThemeProvider";
 import { Metadata } from "next";
 import "./globals.css";
 
@@ -82,11 +83,13 @@ export default function RootLayout({
   return (
     <html lang="zh-CN">
       <body>
-        <RootStoreProvider initState={initState}>
-          <Nav></Nav>
-          {children}
-          <Footer></Footer>
-        </RootStoreProvider>
+        <ThemeProvider>
+          <RootStoreProvider initState={initState}>
+            <Nav></Nav>
+            {children}
+            <Footer></Footer>
+          </RootStoreProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

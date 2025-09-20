@@ -1,111 +1,224 @@
 import Link from "next/link";
+import {
+  Box,
+  Container,
+  Grid,
+  Typography,
+  TextField,
+  Button,
+  IconButton,
+  Divider,
+  useTheme,
+} from "@mui/material";
+import {
+  Twitter as TwitterIcon,
+  Instagram as InstagramIcon,
+  LinkedIn as LinkedInIcon,
+  GitHub as GitHubIcon,
+} from "@mui/icons-material";
 import { Icons } from "@/components/icons";
 
 export function Footer() {
+  const theme = useTheme();
+
+  const socialLinks = [
+    { icon: TwitterIcon, href: "#", label: "Twitter" },
+    { icon: InstagramIcon, href: "#", label: "Instagram" },
+    { icon: LinkedInIcon, href: "#", label: "LinkedIn" },
+    { icon: GitHubIcon, href: "#", label: "GitHub" },
+  ];
+
+  const quickLinks = [
+    { label: "首页", href: "/" },
+    { label: "最新文章", href: "#" },
+    { label: "热门文章", href: "#" },
+    { label: "关于我", href: "#" },
+    { label: "联系方式", href: "#" },
+  ];
+
   return (
-    <footer className="bg-gray-800 text-white py-12 mt-20">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div>
-            <div className="flex items-center space-x-2 mb-4">
-              <Icons.Logo className="h-6 w-6 text-blue-400" />
-              <span className="font-bold text-lg">我的博客</span>
-            </div>
-            <p className="text-gray-400 mb-4">分享知识、记录生活、思考未来</p>
-            <div className="flex space-x-4">
-              <Link
-                href="#"
-                className="text-gray-400 hover:text-white transition-colors"
+    <Box
+      component="footer"
+      sx={{
+        backgroundColor: "grey.800",
+        color: "common.white",
+        py: { xs: 6, md: 8 },
+        mt: { xs: 10, md: 15 },
+      }}
+    >
+      <Container maxWidth="lg">
+        <Grid container spacing={{ xs: 4, md: 6 }}>
+          {/* Brand Section */}
+          <Grid item xs={12} md={4}>
+            <Box sx={{ mb: 3 }}>
+              <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+                <Icons.Logo
+                  sx={{
+                    height: 24,
+                    width: 24,
+                    color: "primary.light",
+                    mr: 1,
+                  }}
+                />
+                <Typography variant="h6" sx={{ fontWeight: 700 }}>
+                  我的博客
+                </Typography>
+              </Box>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: "grey.400",
+                  mb: 3,
+                  lineHeight: 1.6,
+                }}
               >
-                <Icons.Twitter className="h-5 w-5" />
-              </Link>
-              <Link
-                href="#"
-                className="text-gray-400 hover:text-white transition-colors"
-              >
-                <Icons.Instagram className="h-5 w-5" />
-              </Link>
-              <Link
-                href="#"
-                className="text-gray-400 hover:text-white transition-colors"
-              >
-                <Icons.LinkedIn className="h-5 w-5" />
-              </Link>
-              <Link
-                href="#"
-                className="text-gray-400 hover:text-white transition-colors"
-              >
-                <Icons.GitHub className="h-5 w-5" />
-              </Link>
-            </div>
-          </div>
+                分享知识、记录生活、思考未来
+              </Typography>
+              <Box sx={{ display: "flex", gap: 1 }}>
+                {socialLinks.map((social) => {
+                  const IconComponent = social.icon;
+                  return (
+                    <IconButton
+                      key={social.label}
+                      component={Link}
+                      href={social.href}
+                      sx={{
+                        color: "grey.400",
+                        "&:hover": {
+                          color: "common.white",
+                          backgroundColor: "rgba(255, 255, 255, 0.1)",
+                        },
+                        transition: "all 0.2s ease",
+                      }}
+                      aria-label={social.label}
+                    >
+                      <IconComponent fontSize="small" />
+                    </IconButton>
+                  );
+                })}
+              </Box>
+            </Box>
+          </Grid>
 
-          <div>
-            <h3 className="font-bold text-lg mb-4">快速链接</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  href="/"
-                  className="text-gray-400 hover:text-white transition-colors"
+          {/* Quick Links */}
+          <Grid item xs={12} sm={6} md={4}>
+            <Typography
+              variant="h6"
+              sx={{
+                fontWeight: 700,
+                mb: 3,
+                color: "common.white",
+              }}
+            >
+              快速链接
+            </Typography>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
+              {quickLinks.map((link) => (
+                <Typography
+                  key={link.href}
+                  component={Link}
+                  href={link.href}
+                  variant="body2"
+                  sx={{
+                    color: "grey.400",
+                    textDecoration: "none",
+                    "&:hover": {
+                      color: "common.white",
+                    },
+                    transition: "color 0.2s ease",
+                  }}
                 >
-                  首页
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  最新文章
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  热门文章
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  关于我
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="#"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  联系方式
-                </Link>
-              </li>
-            </ul>
-          </div>
+                  {link.label}
+                </Typography>
+              ))}
+            </Box>
+          </Grid>
 
-          <div>
-            <h3 className="font-bold text-lg mb-4">订阅更新</h3>
-            <p className="text-gray-400 mb-4">输入您的邮箱，获取最新文章更新</p>
-            <div className="flex">
-              <input
+          {/* Newsletter Subscription */}
+          <Grid item xs={12} sm={6} md={4}>
+            <Typography
+              variant="h6"
+              sx={{
+                fontWeight: 700,
+                mb: 3,
+                color: "common.white",
+              }}
+            >
+              订阅更新
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                color: "grey.400",
+                mb: 3,
+                lineHeight: 1.6,
+              }}
+            >
+              输入您的邮箱，获取最新文章更新
+            </Typography>
+            <Box sx={{ display: "flex", gap: 1 }}>
+              <TextField
                 type="email"
                 placeholder="您的邮箱地址"
-                className="bg-gray-700 text-white px-4 py-2 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+                variant="outlined"
+                size="small"
+                sx={{
+                  flexGrow: 1,
+                  "& .MuiOutlinedInput-root": {
+                    backgroundColor: "rgba(255, 255, 255, 0.1)",
+                    color: "common.white",
+                    "& fieldset": {
+                      borderColor: "rgba(255, 255, 255, 0.3)",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "rgba(255, 255, 255, 0.5)",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "primary.main",
+                    },
+                  },
+                  "& .MuiInputBase-input::placeholder": {
+                    color: "rgba(255, 255, 255, 0.7)",
+                    opacity: 1,
+                  },
+                }}
               />
-              <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r-md transition-colors">
+              <Button
+                variant="contained"
+                sx={{
+                  px: 3,
+                  borderRadius: 2,
+                  fontWeight: 500,
+                  "&:hover": {
+                    backgroundColor: "primary.dark",
+                  },
+                }}
+              >
                 订阅
-              </button>
-            </div>
-          </div>
-        </div>
+              </Button>
+            </Box>
+          </Grid>
+        </Grid>
 
-        <div className="border-t border-gray-700 mt-10 pt-6 text-center text-gray-400">
-          <p>© {new Date().getFullYear()} 我的博客. 保留所有权利.</p>
-        </div>
-      </div>
-    </footer>
+        <Divider
+          sx={{
+            my: { xs: 4, md: 6 },
+            borderColor: "rgba(255, 255, 255, 0.2)",
+          }}
+        />
+
+        <Box sx={{ textAlign: "center" }}>
+          <Typography
+            variant="body2"
+            sx={{
+              color: "grey.400",
+              fontSize: "0.875rem",
+            }}
+          >
+            © {new Date().getFullYear()} 我的博客. 保留所有权利.
+          </Typography>
+        </Box>
+      </Container>
+    </Box>
   );
 }

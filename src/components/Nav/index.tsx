@@ -1,225 +1,254 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import {
+  AppBar,
+  Toolbar,
+  Box,
+  Typography,
+  Button,
+  IconButton,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Container,
+  useTheme,
+  useMediaQuery,
+  Divider,
+} from "@mui/material";
+import {
+  Menu as MenuIcon,
+  Close as CloseIcon,
+  Search as SearchIcon,
+  LightMode as LightModeIcon,
+  DarkMode as DarkModeIcon,
+  Add as AddIcon,
+} from "@mui/icons-material";
+import { useTheme as useCustomTheme } from "@/providers/ThemeProvider";
 import { Icons } from "@/components/icons";
 
 export const Nav = () => {
-  const [isDark, setIsDark] = useState(false);
+  const { isDark, toggleTheme } = useCustomTheme();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    // 检查系统主题偏好或本地存储
-    const savedTheme = localStorage.getItem("theme");
-    const prefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
-
-    if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
-      setIsDark(true);
-      document.documentElement.classList.add("dark");
-    } else {
-      setIsDark(false);
-      document.documentElement.classList.remove("dark");
-    }
-  }, []);
-
-  const toggleTheme = () => {
-    const newTheme = !isDark;
-    setIsDark(newTheme);
-
-    if (newTheme) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  };
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  const navigationItems = [
+    { label: "首页", href: "/" },
+    { label: "分类", href: "/categories" },
+    { label: "标签", href: "/tags" },
+    { label: "关于", href: "/about" },
+  ];
+
   return (
-    <nav className="bg-white dark:bg-gray-900 shadow-md py-4 sticky top-0 z-50 transition-all duration-300 border-b border-gray-100 dark:border-gray-800">
-      <div className="container mx-auto px-4 flex justify-between items-center">
-        {/* Logo */}
-        <div className="flex items-center space-x-2">
-          <Icons.Logo className="h-8 w-8 text-blue-600 dark:text-blue-400" />
-          <Link
-            href="/"
-            className="font-bold text-xl text-gray-800 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-          >
-            我的博客
-          </Link>
-        </div>
-
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-8">
-          <Link
-            href="/"
-            className="text-gray-600 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors"
-          >
-            首页
-          </Link>
-          <Link
-            href="/categories"
-            className="text-gray-600 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors"
-          >
-            分类
-          </Link>
-          <Link
-            href="/tags"
-            className="text-gray-600 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors"
-          >
-            标签
-          </Link>
-          <Link
-            href="/about"
-            className="text-gray-600 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors"
-          >
-            关于
-          </Link>
-        </div>
-
-        {/* Right side buttons */}
-        <div className="flex items-center space-x-3">
-          {/* Search button */}
-          <button className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              ></path>
-            </svg>
-          </button>
-
-          {/* Theme toggle button */}
-          <button
-            onClick={toggleTheme}
-            className="p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-            aria-label="切换主题"
-          >
-            {isDark ? (
-              <svg
-                className="h-5 w-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-                ></path>
-              </svg>
-            ) : (
-              <svg
-                className="h-5 w-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-                ></path>
-              </svg>
-            )}
-          </button>
-
-          {/* Write button */}
-          <Link
-            href="/post/new"
-            className="hidden md:inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors"
-          >
-            <Icons.Plus className="w-4 h-4" />
-            写文章
-          </Link>
-
-          {/* Mobile menu button */}
-          <button
-            onClick={toggleMobileMenu}
-            className="md:hidden p-2 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-            aria-label="菜单"
-          >
-            {isMobileMenuOpen ? (
-              <Icons.Close className="h-5 w-5" />
-            ) : (
-              <Icons.Menu className="h-5 w-5" />
-            )}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Navigation Menu */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 shadow-lg">
-          <div className="px-4 py-4 space-y-3">
-            <Link
+    <AppBar
+      position="sticky"
+      elevation={1}
+      sx={{
+        backgroundColor: theme.palette.background.paper,
+        borderBottom: `1px solid ${theme.palette.divider}`,
+      }}
+    >
+      <Container maxWidth="xl">
+        <Toolbar sx={{ px: { xs: 0, sm: 2 } }}>
+          {/* Logo */}
+          <Box sx={{ display: "flex", alignItems: "center", mr: 4 }}>
+            <Icons.Logo
+              sx={{
+                height: 32,
+                width: 32,
+                color: "primary.main",
+                mr: 1,
+              }}
+            />
+            <Typography
+              variant="h6"
+              component={Link}
               href="/"
-              className="block text-gray-600 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors py-2"
-              onClick={() => setIsMobileMenuOpen(false)}
+              sx={{
+                fontWeight: 700,
+                color: "text.primary",
+                textDecoration: "none",
+                "&:hover": {
+                  color: "primary.main",
+                },
+                transition: "color 0.2s ease",
+              }}
             >
-              首页
-            </Link>
-            <Link
-              href="/categories"
-              className="block text-gray-600 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors py-2"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              分类
-            </Link>
-            <Link
-              href="/tags"
-              className="block text-gray-600 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors py-2"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              标签
-            </Link>
-            <Link
-              href="/about"
-              className="block text-gray-600 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 font-medium transition-colors py-2"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              关于
-            </Link>
-            <div className="pt-3 border-t border-gray-200 dark:border-gray-700">
-              <Link
-                href="/post/new"
-                className="flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors py-2"
-                onClick={() => setIsMobileMenuOpen(false)}
+              我的博客
+            </Typography>
+          </Box>
+
+          {/* Desktop Navigation */}
+          <Box
+            sx={{
+              display: { xs: "none", md: "flex" },
+              alignItems: "center",
+              gap: 1,
+              flexGrow: 1,
+            }}
+          >
+            {navigationItems.map((item) => (
+              <Button
+                key={item.href}
+                component={Link}
+                href={item.href}
+                sx={{
+                  color: "text.secondary",
+                  fontWeight: 500,
+                  px: 2,
+                  py: 1,
+                  "&:hover": {
+                    color: "primary.main",
+                    backgroundColor: "transparent",
+                  },
+                  transition: "color 0.2s ease",
+                }}
               >
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
+                {item.label}
+              </Button>
+            ))}
+          </Box>
+
+          {/* Right side buttons */}
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            {/* Search button */}
+            <IconButton
+              size="medium"
+              sx={{
+                color: "text.secondary",
+                "&:hover": {
+                  backgroundColor: "action.hover",
+                },
+              }}
+            >
+              <SearchIcon />
+            </IconButton>
+
+            {/* Theme toggle button */}
+            <IconButton
+              onClick={toggleTheme}
+              size="medium"
+              sx={{
+                color: "text.secondary",
+                "&:hover": {
+                  backgroundColor: "action.hover",
+                },
+              }}
+            >
+              {isDark ? <LightModeIcon /> : <DarkModeIcon />}
+            </IconButton>
+
+            {/* Write button - Desktop */}
+            <Button
+              component={Link}
+              href="/post/new"
+              variant="contained"
+              startIcon={<AddIcon />}
+              sx={{
+                display: { xs: "none", md: "inline-flex" },
+                borderRadius: 2,
+                px: 3,
+                py: 1,
+                fontWeight: 500,
+              }}
+            >
+              写文章
+            </Button>
+
+            {/* Mobile menu button */}
+            <IconButton
+              onClick={toggleMobileMenu}
+              size="medium"
+              sx={{
+                display: { xs: "flex", md: "none" },
+                color: "text.secondary",
+                "&:hover": {
+                  backgroundColor: "action.hover",
+                },
+              }}
+            >
+              {isMobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
+            </IconButton>
+          </Box>
+        </Toolbar>
+      </Container>
+
+      {/* Mobile Navigation Drawer */}
+      <Drawer
+        anchor="right"
+        open={isMobileMenuOpen}
+        onClose={toggleMobileMenu}
+        sx={{
+          display: { xs: "block", md: "none" },
+          "& .MuiDrawer-paper": {
+            width: 280,
+            backgroundColor: "background.paper",
+          },
+        }}
+      >
+        <Box sx={{ p: 2 }}>
+          <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
+            <IconButton onClick={toggleMobileMenu}>
+              <CloseIcon />
+            </IconButton>
+          </Box>
+
+          <List>
+            {navigationItems.map((item) => (
+              <ListItem key={item.href} disablePadding>
+                <ListItemButton
+                  component={Link}
+                  href={item.href}
+                  onClick={toggleMobileMenu}
+                  sx={{
+                    borderRadius: 2,
+                    mb: 0.5,
+                    "&:hover": {
+                      backgroundColor: "action.hover",
+                    },
+                  }}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M12 4v16m8-8H4"
+                  <ListItemText
+                    primary={item.label}
+                    sx={{
+                      "& .MuiListItemText-primary": {
+                        fontWeight: 500,
+                        color: "text.primary",
+                      },
+                    }}
                   />
-                </svg>
-                写文章
-              </Link>
-            </div>
-          </div>
-        </div>
-      )}
-    </nav>
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+
+          <Divider sx={{ my: 2 }} />
+
+          <Button
+            component={Link}
+            href="/post/new"
+            variant="contained"
+            startIcon={<AddIcon />}
+            fullWidth
+            onClick={toggleMobileMenu}
+            sx={{
+              borderRadius: 2,
+              py: 1.5,
+              fontWeight: 500,
+            }}
+          >
+            写文章
+          </Button>
+        </Box>
+      </Drawer>
+    </AppBar>
   );
 };
