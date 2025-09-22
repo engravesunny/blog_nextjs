@@ -102,13 +102,14 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
 
           // 代码块样式
           "& pre": {
-            backgroundColor: "grey.900",
-            color: "common.white",
+            backgroundColor: "grey.200",
+            color: "text.primary",
             p: 2,
             borderRadius: 2,
             overflow: "auto",
             mb: 2,
             fontSize: "0.875rem",
+            fontFamily: '"Roboto Mono", monospace',
             "& code": {
               backgroundColor: "transparent",
               color: "inherit",

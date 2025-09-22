@@ -4,7 +4,7 @@ import {
   Skeleton,
 } from "@/components/ui/Skeleton";
 import { Box, Container, Grid } from "@mui/material";
-
+// TODO 待修复
 export default function Loading() {
   return (
     <Box
@@ -13,7 +13,10 @@ export default function Loading() {
         background: "background.default",
       }}
     >
-      <Container maxWidth="lg" sx={{ py: { xs: 6, md: 8 }, px: { xs: 2, sm: 3, md: 4 } }}>
+      <Container
+        maxWidth="lg"
+        sx={{ py: { xs: 6, md: 8 }, px: { xs: 2, sm: 3, md: 4 } }}
+      >
         {/* 返回按钮骨架 */}
         <Skeleton sx={{ height: 24, width: 80, mb: 4 }} />
 
@@ -133,9 +136,9 @@ export default function Loading() {
                 ))}
               </div>
             </section>
-          </div>
-        </div>
-      </div>
-    </div>
+          </Box>
+        </Box>
+      </Container>
+    </Box>
   );
 }
