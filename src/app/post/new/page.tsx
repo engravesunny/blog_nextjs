@@ -5,6 +5,7 @@ import { useStore } from "@/store/StoreProvider";
 import { IPost } from "@/store/post";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
+import { MarkdownEditor } from "@/components/MarkdownEditor";
 
 export default function PostEditorPage() {
   const router = useRouter();
@@ -250,17 +251,15 @@ export default function PostEditorPage() {
 
                 {/* 正文内容 */}
                 <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">
                     文章正文
                   </label>
-                  <textarea
+                  <MarkdownEditor
                     value={formData.content}
-                    onChange={(e) =>
-                      handleInputChange("content", e.target.value)
-                    }
+                    onChange={(value) => handleInputChange("content", value)}
                     placeholder="在这里写下你的文章内容，支持 Markdown 语法..."
-                    rows={20}
-                    className="w-full px-4 py-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none font-mono text-sm"
+                    minRows={15}
+                    maxRows={40}
                   />
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
                     支持 Markdown 语法。如果不填写正文，将使用摘要作为文章内容。

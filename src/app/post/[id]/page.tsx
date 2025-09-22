@@ -6,6 +6,7 @@ import { postState } from "@/store/post";
 import { PostDetailClient } from "./PostDetailClient";
 import { Icons } from "@/components/icons";
 import { getPostContent } from "@/utils/getPostContent";
+import { SmartMarkdownRenderer } from "@/components/SmartMarkdownRenderer";
 import {
   Box,
   Container,
@@ -391,40 +392,9 @@ export default async function PostDetailPage({
               </Stack>
 
               {/* 文章内容 */}
-              <Box
-                sx={{
-                  mb: 4,
-                  "& p": {
-                    color: "text.primary",
-                    lineHeight: 1.7,
-                    mb: 2,
-                  },
-                  "& h1, & h2, & h3, & h4, & h5, & h6": {
-                    color: "text.primary",
-                    fontWeight: 600,
-                    mt: 3,
-                    mb: 2,
-                  },
-                  "& a": {
-                    color: "primary.main",
-                    textDecoration: "underline",
-                  },
-                  "& code": {
-                    backgroundColor: "action.hover",
-                    color: "text.primary",
-                    px: 1,
-                    py: 0.5,
-                    borderRadius: 1,
-                    fontSize: "0.875rem",
-                  },
-                }}
-              >
+              <Box sx={{ mb: 4 }}>
                 {post.content ? (
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: post.content.replace(/\n/g, "<br>"),
-                    }}
-                  />
+                  <SmartMarkdownRenderer content={post.content} />
                 ) : (
                   <Typography
                     variant="body1"
