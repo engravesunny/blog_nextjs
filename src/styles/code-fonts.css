@@ -1,0 +1,80 @@
+/* 导入流行的代码字体 */
+
+/* Fira Code - 支持连字符的现代代码字体 */
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap");
+
+/* JetBrains Mono - JetBrains 开发的代码字体 */
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
+
+/* Source Code Pro - Adobe 开发的开源代码字体 */
+@import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+/* Roboto Mono - Google 开发的等宽字体 */
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap");
+
+/* 代码块的全局样式优化 */
+pre,
+code {
+  /* 启用字体特性 */
+  font-feature-settings: "liga" 1, "calt" 1, "ss01" 1, "ss02" 1, "ss03" 1,
+    "ss04" 1, "ss05" 1, "ss06" 1;
+  font-variant-ligatures: common-ligatures;
+
+  /* 优化渲染 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* 代码块滚动条样式 */
+pre::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+pre::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+pre::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+pre::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* 暗色主题下的滚动条 */
+[data-theme="dark"] pre::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] pre::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+[data-theme="dark"] pre::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* 代码选择样式 */
+pre::selection,
+pre *::selection {
+  background: rgba(173, 214, 255, 0.3);
+}
+
+code::selection {
+  background: rgba(173, 214, 255, 0.3);
+}
+
+/* 暗色主题下的选择样式 */
+[data-theme="dark"] pre::selection,
+[data-theme="dark"] pre *::selection {
+  background: rgba(173, 214, 255, 0.2);
+}
+
+[data-theme="dark"] code::selection {
+  background: rgba(173, 214, 255, 0.2);
+}

@@ -39,28 +39,105 @@ const testMarkdown = `# Markdown 解析测试
 
 ### 代码块
 
+#### JavaScript 示例 (测试连字符效果)
 \`\`\`javascript
 const greeting = (name) => {
   console.log(\`Hello, \${name}!\`);
   return \`Welcome, \${name}!\`;
 };
 
+// 箭头函数和连字符测试: => != >= <= === !== && ||
+const isValid = (value) => value !== null && value !== undefined;
+const result = isValid('test') ? 'valid' : 'invalid';
+
 // 调用函数
 const message = greeting('World');
 console.log(message);
 \`\`\`
 
+#### TypeScript 示例 (测试字体清晰度)
 \`\`\`typescript
 interface User {
   id: number;
   name: string;
   email: string;
+  isActive?: boolean;
 }
 
+// 泛型和复杂类型
+type ApiResponse<T> = {
+  data: T;
+  status: 'success' | 'error';
+  message?: string;
+};
+
 const users: User[] = [
-  { id: 1, name: 'Alice', email: 'alice@example.com' },
-  { id: 2, name: 'Bob', email: 'bob@example.com' }
+  { id: 1, name: 'Alice', email: 'alice@example.com', isActive: true },
+  { id: 2, name: 'Bob', email: 'bob@example.com', isActive: false }
 ];
+
+// 异步函数
+async function fetchUsers(): Promise<ApiResponse<User[]>> {
+  try {
+    const response = await fetch('/api/users');
+    return await response.json();
+  } catch (error) {
+    return { data: [], status: 'error', message: error.message };
+  }
+}
+\`\`\`
+
+#### Python 示例 (测试不同语言)
+\`\`\`python
+def fibonacci(n):
+    """计算斐波那契数列"""
+    if n <= 1:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)
+
+# 列表推导式和字符串格式化
+numbers = [fibonacci(i) for i in range(10)]
+print(f"前10个斐波那契数: {numbers}")
+
+# 类定义
+class Calculator:
+    def __init__(self):
+        self.history = []
+
+    def add(self, a, b):
+        result = a + b
+        self.history.append(f"{a} + {b} = {result}")
+        return result
+\`\`\`
+
+#### CSS 示例 (测试符号和连字符)
+\`\`\`css
+/* 现代 CSS 特性测试 */
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+
+  /* CSS 变量和计算 */
+  --primary-color: #3b82f6;
+  --secondary-color: hsl(210, 100%, 50%);
+  padding: calc(1rem + 2vw);
+}
+
+/* 伪类和伪元素 */
+.button:hover::before {
+  content: "→";
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* 媒体查询 */
+@media (prefers-color-scheme: dark) {
+  .container {
+    background: #1a1a1a;
+    color: #ffffff;
+  }
+}
 \`\`\`
 
 ### 表格
@@ -179,6 +256,12 @@ export default function TestMarkdownPage() {
           <li>
             <Typography variant="body2">
               <strong>代码高亮</strong>: 支持多种编程语言的语法高亮
+            </Typography>
+          </li>
+          <li>
+            <Typography variant="body2">
+              <strong>优化代码字体</strong>: 使用 Fira Code、JetBrains Mono
+              等现代代码字体，支持连字符和更好的可读性
             </Typography>
           </li>
           <li>

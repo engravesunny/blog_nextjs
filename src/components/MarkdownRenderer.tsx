@@ -102,30 +102,51 @@ export const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({
 
           // 代码块样式
           "& pre": {
-            backgroundColor: "grey.200",
-            color: "text.primary",
-            p: 2,
+            backgroundColor: (theme) =>
+              theme.palette.mode === "dark" ? "#1e1e1e" : "#f8f8f8",
+            color: (theme) =>
+              theme.palette.mode === "dark" ? "#d4d4d4" : "#24292e",
+            p: 3,
             borderRadius: 2,
             overflow: "auto",
             mb: 2,
             fontSize: "0.875rem",
-            fontFamily: '"Roboto Mono", monospace',
+            lineHeight: 1.6,
+            border: (theme) =>
+              theme.palette.mode === "dark"
+                ? "1px solid #333"
+                : "1px solid #e1e4e8",
+            fontFamily: (theme) => theme.typography.fontFamilyMonospace,
+            fontFeatureSettings: '"liga" 1, "calt" 1', // 启用连字符
+            fontVariantLigatures: "common-ligatures",
             "& code": {
               backgroundColor: "transparent",
               color: "inherit",
               p: 0,
+              fontFamily: "inherit",
+              fontSize: "inherit",
+              lineHeight: "inherit",
             },
           },
 
           // 行内代码样式
           "& code": {
-            backgroundColor: "action.hover",
-            color: "text.primary",
-            px: 1,
+            backgroundColor: (theme) =>
+              theme.palette.mode === "dark"
+                ? "rgba(110, 118, 129, 0.4)"
+                : "rgba(175, 184, 193, 0.2)",
+            color: (theme) =>
+              theme.palette.mode === "dark" ? "#f97583" : "#d73a49",
+            px: 1.5,
             py: 0.5,
             borderRadius: 1,
             fontSize: "0.875rem",
-            fontFamily: "monospace",
+            fontFamily: (theme) => theme.typography.fontFamilyMonospace,
+            fontWeight: 500,
+            border: (theme) =>
+              theme.palette.mode === "dark"
+                ? "1px solid rgba(110, 118, 129, 0.2)"
+                : "1px solid rgba(175, 184, 193, 0.2)",
           },
 
           // 表格样式

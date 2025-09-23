@@ -78,21 +78,30 @@ export const SimpleMarkdownRenderer: React.FC<SimpleMarkdownRendererProps> = ({
               key={elements.length}
               elevation={0}
               sx={{
-                backgroundColor: "grey.900",
-                color: "common.white",
-                p: 2,
+                backgroundColor: (theme) =>
+                  theme.palette.mode === "dark" ? "#1e1e1e" : "#f8f8f8",
+                color: (theme) =>
+                  theme.palette.mode === "dark" ? "#d4d4d4" : "#24292e",
+                p: 3,
                 borderRadius: 2,
                 mb: 2,
                 overflow: "auto",
+                border: (theme) =>
+                  theme.palette.mode === "dark"
+                    ? "1px solid #333"
+                    : "1px solid #e1e4e8",
               }}
             >
               <Typography
                 component="pre"
                 sx={{
-                  fontFamily: "monospace",
+                  fontFamily: (theme) => theme.typography.fontFamilyMonospace,
                   fontSize: "0.875rem",
+                  lineHeight: 1.6,
                   whiteSpace: "pre-wrap",
                   m: 0,
+                  fontFeatureSettings: '"liga" 1, "calt" 1',
+                  fontVariantLigatures: "common-ligatures",
                 }}
               >
                 {codeBlockContent.join("\n")}

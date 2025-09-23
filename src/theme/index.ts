@@ -93,6 +93,21 @@ const baseTheme: ThemeOptions = {
       '"Segoe UI Emoji"',
       '"Segoe UI Symbol"',
     ].join(","),
+    // 代码字体配置 - 使用更现代的等宽字体
+    fontFamilyMonospace: [
+      '"Fira Code"',
+      '"JetBrains Mono"',
+      '"Cascadia Code"',
+      '"SF Mono"',
+      '"Monaco"',
+      '"Inconsolata"',
+      '"Roboto Mono"',
+      '"Source Code Pro"',
+      '"Menlo"',
+      '"DejaVu Sans Mono"',
+      '"Courier New"',
+      "monospace",
+    ].join(","),
     h1: {
       fontSize: "2.5rem",
       fontWeight: 700,
