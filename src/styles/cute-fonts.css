@@ -1,0 +1,166 @@
+/* 导入可爱的字体 */
+
+/* 霞鹜文楷 - 优雅的手写风格中文字体 */
+@import url("https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css");
+
+/* Google Fonts 可爱字体 */
+/* Comfortaa - 圆润可爱的几何字体 */
+@import url("https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap");
+
+/* Nunito - 友好圆润的无衬线字体 */
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+/* Poppins - 现代几何字体 */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+/* Quicksand - 友好的无衬线字体 */
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
+
+/* Fredoka One - 可爱的圆润字体 */
+@import url("https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap");
+
+/* 可爱的中文字体 */
+/* Ma Shan Zheng - 马善政毛笔楷书 */
+@import url("https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap");
+
+/* Zhi Mang Xing - 志芒星手写字体 */
+@import url("https://fonts.googleapis.com/css2?family=Zhi+Mang+Xing&display=swap");
+
+/* Liu Jian Mao Cao - 刘建毛草 */
+@import url("https://fonts.googleapis.com/css2?family=Liu+Jian+Mao+Cao&display=swap");
+
+/* 全局字体优化 */
+* {
+  /* 优化字体渲染 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* 针对中文字体的特殊优化 */
+:lang(zh),
+:lang(zh-CN),
+:lang(zh-TW) {
+  /* 中文字体渲染优化 */
+  font-variant-east-asian: proportional-width;
+  text-rendering: optimizeLegibility;
+}
+
+/* 可爱的文字效果 */
+.cute-text {
+  font-family: "Comfortaa", "LXGW WenKai", sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+/* 标题的可爱效果 */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Nunito", "LXGW WenKai", sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* 特殊的可爱标题样式 */
+.cute-title {
+  font-family: "Fredoka One", "Ma Shan Zheng", cursive;
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 手写风格文字 */
+.handwriting {
+  font-family: "Zhi Mang Xing", "Liu Jian Mao Cao", cursive;
+  font-size: 1.1em;
+  line-height: 1.6;
+}
+
+/* 按钮的可爱字体 */
+button,
+.MuiButton-root {
+  font-family: "Quicksand", "LXGW WenKai", sans-serif !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.5px !important;
+}
+
+/* 导航栏字体 */
+nav,
+.nav-item {
+  font-family: "Poppins", "LXGW WenKai", sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+/* 卡片标题 */
+.card-title {
+  font-family: "Comfortaa", "LXGW WenKai", sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* 可爱的阴影效果 */
+.cute-shadow {
+  text-shadow: 0 1px 2px rgba(255, 182, 193, 0.3),
+    0 2px 4px rgba(255, 192, 203, 0.2);
+}
+
+/* 渐变文字效果 */
+.gradient-text {
+  background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4);
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientShift 3s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* 可爱的链接样式 */
+a {
+  font-family: "Nunito", "LXGW WenKai", sans-serif;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transform: translateY(-1px);
+}
+
+/* 输入框字体 */
+input,
+textarea,
+.MuiTextField-root {
+  font-family: "Quicksand", "LXGW WenKai", sans-serif !important;
+}
+
+/* 响应式字体大小调整 */
+@media (max-width: 768px) {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    letter-spacing: 0.2px;
+  }
+
+  body {
+    letter-spacing: 0.3px;
+  }
+}

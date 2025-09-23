@@ -82,6 +82,26 @@ const baseTheme: ThemeOptions = {
   },
   typography: {
     fontFamily: [
+      // 可爱的中文字体
+      '"LXGW WenKai"', // 霞鹜文楷 - 优雅的手写风格
+      '"Ma Shan Zheng"', // 马善政毛笔楷书 - 可爱的中文字体
+      '"Zhi Mang Xing"', // 志芒星 - 手写风格中文字体
+      '"Liu Jian Mao Cao"', // 刘建毛草 - 草书风格
+
+      // 可爱的英文字体
+      '"Comfortaa"', // 圆润可爱的几何字体
+      '"Nunito"', // 友好圆润的无衬线字体
+      '"Poppins"', // 现代几何字体
+      '"Quicksand"', // 友好的无衬线字体
+      '"Fredoka One"', // 可爱的圆润字体
+
+      // 系统字体回退
+      '"PingFang SC"', // macOS 中文字体
+      '"Hiragino Sans GB"', // macOS 中文字体
+      '"Microsoft YaHei"', // Windows 中文字体
+      '"WenQuanYi Micro Hei"', // Linux 中文字体
+
+      // 英文系统字体回退
       "-apple-system",
       "BlinkMacSystemFont",
       '"Segoe UI"',
@@ -89,6 +109,8 @@ const baseTheme: ThemeOptions = {
       '"Helvetica Neue"',
       "Arial",
       "sans-serif",
+
+      // Emoji 字体
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
       '"Segoe UI Symbol"',
@@ -110,41 +132,51 @@ const baseTheme: ThemeOptions = {
     ].join(","),
     h1: {
       fontSize: "2.5rem",
-      fontWeight: 700,
-      lineHeight: 1.2,
+      fontWeight: 600, // 稍微减轻字重，更可爱
+      lineHeight: 1.3,
+      letterSpacing: "0.5px",
     },
     h2: {
       fontSize: "2rem",
       fontWeight: 600,
-      lineHeight: 1.3,
+      lineHeight: 1.4,
+      letterSpacing: "0.3px",
     },
     h3: {
       fontSize: "1.5rem",
-      fontWeight: 600,
-      lineHeight: 1.4,
+      fontWeight: 500, // 更轻的字重
+      lineHeight: 1.5,
+      letterSpacing: "0.3px",
     },
     h4: {
       fontSize: "1.25rem",
-      fontWeight: 600,
-      lineHeight: 1.4,
+      fontWeight: 500,
+      lineHeight: 1.5,
+      letterSpacing: "0.2px",
     },
     h5: {
       fontSize: "1.125rem",
-      fontWeight: 600,
-      lineHeight: 1.4,
+      fontWeight: 500,
+      lineHeight: 1.5,
+      letterSpacing: "0.2px",
     },
     h6: {
       fontSize: "1rem",
-      fontWeight: 600,
-      lineHeight: 1.4,
+      fontWeight: 500,
+      lineHeight: 1.5,
+      letterSpacing: "0.2px",
     },
     body1: {
       fontSize: "1rem",
-      lineHeight: 1.6,
+      lineHeight: 1.7, // 更舒适的行高
+      letterSpacing: "0.3px",
+      fontWeight: 400,
     },
     body2: {
       fontSize: "0.875rem",
       lineHeight: 1.6,
+      letterSpacing: "0.2px",
+      fontWeight: 400,
     },
   },
   components: {

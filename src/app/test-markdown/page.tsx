@@ -177,17 +177,24 @@ export default function TestMarkdownPage() {
 
   return (
     <Container maxWidth="xl" sx={{ py: 4 }}>
-      <Typography variant="h3" component="h1" gutterBottom align="center">
-        Markdown 解析功能测试
+      <Typography
+        variant="h3"
+        component="h1"
+        gutterBottom
+        align="center"
+        className="cute-title"
+      >
+        🌸 Markdown 解析功能测试 🌸
       </Typography>
 
       <Typography
         variant="body1"
         color="text.secondary"
         align="center"
+        className="cute-text"
         sx={{ mb: 4 }}
       >
-        测试项目中的 Markdown 解析和编辑功能
+        测试项目中的 Markdown 解析和编辑功能，现在使用可爱的字体！✨
       </Typography>
 
       <Grid container spacing={4}>
@@ -262,6 +269,12 @@ export default function TestMarkdownPage() {
             <Typography variant="body2">
               <strong>优化代码字体</strong>: 使用 Fira Code、JetBrains Mono
               等现代代码字体，支持连字符和更好的可读性
+            </Typography>
+          </li>
+          <li>
+            <Typography variant="body2">
+              <strong>可爱字体系统</strong>: 全局使用霞鹜文楷、Comfortaa、Nunito
+              等可爱字体，提供温暖友好的阅读体验
             </Typography>
           </li>
           <li>

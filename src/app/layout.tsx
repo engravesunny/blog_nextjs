@@ -5,6 +5,7 @@ import { initState } from "@/store";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 import { Metadata } from "next";
 import "@/styles/code-fonts.css";
+import "@/styles/cute-fonts.css";
 
 export const metadata: Metadata = {
   title: {
