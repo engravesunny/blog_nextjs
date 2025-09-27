@@ -373,7 +373,12 @@ export class HttpClient {
       } else {
         data = await response.text();
       }
+      if (typeof data === "string") {
+        data = JSON.parse(data);
+      }
+      console.log(`[ Request data from: ${response.url} ] >`, data);
     } catch (error) {
+      console.log(`[ Request Error with: ${response.url} ] >`, error);
       data = null;
     }
 
@@ -541,7 +546,8 @@ export class HttpClient {
 // ==================== 默认实例 ====================
 
 /** 默认请求客户端实例 */
-export const request = new HttpClient("/api");
+const baseURL = process.env.NEXT_PUBLIC_API_URL;
+export const request = new HttpClient(baseURL);
 
 // ==================== 便捷导出 ====================
 

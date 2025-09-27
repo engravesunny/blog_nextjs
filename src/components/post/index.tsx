@@ -256,7 +256,9 @@ export const Post = () => {
   return (
     <Container maxWidth="xl" sx={{ px: 0 }}>
       {/* Page Header */}
-      <Box sx={{ textAlign: "center", mb: { xs: 6, md: 8 } }}>
+      <Box
+        sx={{ textAlign: "center", mb: { xs: 6, md: 8 }, userSelect: "none" }}
+      >
         <Typography
           variant="h2"
           sx={{
@@ -270,7 +272,7 @@ export const Post = () => {
             color: "transparent",
           }}
         >
-          我的博客
+          🌸 琪宝~琪宝~ 🌸
         </Typography>
         <Typography
           variant="h6"

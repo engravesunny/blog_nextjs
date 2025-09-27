@@ -82,7 +82,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="zh-CN">
+    <html lang="zh-CN" style={{ fontSize: "18px" }}>
       <body>
         <ThemeProvider>
           <RootStoreProvider initState={initState}>

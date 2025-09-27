@@ -49,7 +49,7 @@ export function Footer() {
         <Grid container spacing={{ xs: 4, md: 6 }}>
           {/* Brand Section */}
           <Grid size={{ xs: 12, md: 4 }}>
-            <Box sx={{ mb: 3 }}>
+            <Box sx={{ mb: 3, userSelect: "none" }}>
               <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
                 <Icons.Logo
                   sx={{
@@ -60,7 +60,7 @@ export function Footer() {
                   }}
                 />
                 <Typography variant="h6" sx={{ fontWeight: 700 }}>
-                  我的博客
+                  🌸 琪宝~琪宝~ 🌸
                 </Typography>
               </Box>
               <Typography

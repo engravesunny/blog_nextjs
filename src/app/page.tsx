@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { Post } from "@/components/post";
 import { Box, Container } from "@mui/material";
+import { getPostList } from "@/api/post";
 
 export const metadata: Metadata = {
   title: "首页",
@@ -29,7 +30,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Home() {
+export default async function Home() {
+  const postList = await getPostList();
   return (
     <Box
       component="main"

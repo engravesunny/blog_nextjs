@@ -59,7 +59,14 @@ export const Nav = () => {
       <Container maxWidth="xl">
         <Toolbar sx={{ px: { xs: 0, sm: 2 } }}>
           {/* Logo */}
-          <Box sx={{ display: "flex", alignItems: "center", mr: 4 }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              mr: 4,
+              userSelect: "none",
+            }}
+          >
             <Icons.Logo
               sx={{
                 height: 32,
@@ -82,7 +89,7 @@ export const Nav = () => {
                 transition: "color 0.2s ease",
               }}
             >
-              我的博客
+              🌸 琪宝~琪宝~ 🌸
             </Typography>
           </Box>
 

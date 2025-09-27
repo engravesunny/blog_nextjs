@@ -4,7 +4,6 @@ import {
   Skeleton,
 } from "@/components/ui/Skeleton";
 import { Box, Container, Grid } from "@mui/material";
-// TODO 待修复
 export default function Loading() {
   return (
     <Box
