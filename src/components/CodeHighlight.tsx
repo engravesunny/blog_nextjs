@@ -1,43 +1,45 @@
-'use client';
+// TODO 待修复
 
-import React, { useEffect } from 'react';
+// 'use client';
 
-// 内联代码高亮样式
-const codeHighlightStyles = `
-  .hljs {
-    display: block;
-    overflow-x: auto;
-    padding: 0.5em;
-    background: #0d1117;
-    color: #c9d1d9;
-  }
+// import React, { useEffect } from 'react';
 
-  .hljs-comment,
-  .hljs-quote {
-    color: #8b949e;
-    font-style: italic;
-  }
+// // 内联代码高亮样式
+// const codeHighlightStyles = `
+//   .hljs {
+//     display: block;
+//     overflow-x: auto;
+//     padding: 0.5em;
+//     background: #0d1117;
+//     color: #c9d1d9;
+//   }
 
-  .hljs-keyword,
-  .hljs-selector-tag,
-  .hljs-subst {
-    color: #ff7b72;
-  }
+//   .hljs-comment,
+//   .hljs-quote {
+//     color: #8b949e;
+//     font-style: italic;
+//   }
 
-  .hljs-number,
-  .hljs-literal,
-  .hljs-variable,
-  .hljs-template-variable,
-  .hljs-tag .hljs-attr {
-    color: #79c0ff;
-  }
+//   .hljs-keyword,
+//   .hljs-selector-tag,
+//   .hljs-subst {
+//     color: #ff7b72;
+//   }
 
-  .hljs-string,
-  .hljs-doctag {
-    color: #a5d6ff;
-  }
+//   .hljs-number,
+//   .hljs-literal,
+//   .hljs-variable,
+//   .hljs-template-variable,
+//   .hljs-tag .hljs-attr {
+//     color: #79c0ff;
+//   }
 
-  .hljs-title,
-  .hljs-section,
-  .hljs-selector-id {
-    color: #d2a8ff;
+//   .hljs-string,
+//   .hljs-doctag {
+//     color: #a5d6ff;
+//   }
+
+//   .hljs-title,
+//   .hljs-section,
+//   .hljs-selector-id {
+//     color: #d2a8ff;

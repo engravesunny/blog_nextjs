@@ -1,9 +1,7 @@
-import { Metadata } from "next";
 import { Post } from "@/components/post";
 import { Box, Container } from "@mui/material";
-import { getPostList } from "@/api/post";
 
-export const metadata: Metadata = {
+export const metadata = {
   title: "首页",
   description:
     "浏览最新的技术文章，包括前端开发、React、Next.js、TypeScript 等技术分享和实践经验。",
@@ -31,7 +29,6 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const postList = await getPostList();
   return (
     <Box
       component="main"

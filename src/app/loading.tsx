@@ -62,7 +62,7 @@ export default function Loading() {
           {/* 文章网格骨架 */}
           <Grid container spacing={{ xs: 2, md: 3 }} sx={{ mb: 6 }}>
             {Array.from({ length: 6 }).map((_, index) => (
-              <Grid item xs={12} sm={6} lg={4} key={index}>
+              <Grid key={index}>
                 <SkeletonPostCard />
               </Grid>
             ))}

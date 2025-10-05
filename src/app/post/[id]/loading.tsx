@@ -39,7 +39,7 @@ export default function Loading() {
           <SkeletonHeading sx={{ width: 128, mb: 3 }} />
           <Grid container spacing={3}>
             {Array.from({ length: 3 }).map((_, index) => (
-              <Grid item xs={12} md={4} key={index}>
+              <Grid key={index}>
                 <Box
                   sx={{
                     p: 2,

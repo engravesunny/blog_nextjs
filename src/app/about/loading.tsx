@@ -33,8 +33,6 @@ export default function Loading() {
           {/* 头部横幅骨架 */}
           <Box
             sx={{
-              background: (theme) =>
-                `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
               px: { xs: 4, md: 8 },
               py: { xs: 6, md: 12 },
               color: "white",

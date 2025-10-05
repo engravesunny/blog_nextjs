@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { postState } from "@/store/post";
 import { PostDetailClient } from "./PostDetailClient";
-import { Icons } from "@/components/icons";
 import { getPostContent } from "@/utils/getPostContent";
 import { SmartMarkdownRenderer } from "@/components/SmartMarkdownRenderer";
 import {
@@ -34,9 +33,9 @@ import {
 export async function generateMetadata({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }): Promise<Metadata> {
-  const postId = parseInt(params.id);
+  const postId = parseInt((await params).id);
   const post = postState.postList.find((p) => p.id === postId);
 
   if (!post) {
@@ -139,9 +138,9 @@ export async function generateStaticParams() {
 export default async function PostDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const postId = parseInt(params.id);
+  const postId = parseInt((await params).id);
 
   // 使用 getPostContent 函数获取文章数据
   const { post, error } = await getPostContent(postId);

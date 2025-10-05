@@ -2,7 +2,7 @@
  * 文章服务 - 处理文章数据获取，包含错误处理和 Mock 数据回退
  */
 
-import { api } from "@/api";
+import { api, PostCreateParams } from "@/api";
 import { postState, IPost, IComment } from "@/store/post";
 
 export interface PostServiceResponse<T> {
@@ -79,7 +79,7 @@ export async function getPostComments(
 ): Promise<PostServiceResponse<IComment[]>> {
   try {
     // 尝试从 API 获取数据
-    const response = await api.comment.getList(postId);
+    const response = await api.comment.getByPostId(postId);
     return {
       data: response.data.list,
       error: null,
@@ -205,7 +205,7 @@ export async function createPost(
 ): Promise<PostServiceResponse<IPost>> {
   try {
     // 尝试通过 API 创建文章
-    const response = await api.post.create(postData);
+    const response = await api.post.create(postData as PostCreateParams);
     return {
       data: response.data,
       error: null,
