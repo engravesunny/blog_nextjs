@@ -1,7 +1,9 @@
 import CryptoJS from "crypto-js";
 
-const AccessKey = process.env.NEXT_PUBLIC_QINIU_ACCESS_TOKEN;
-const SKey = process.env.NEXT_PUBLIC_QINIU_SECRET_TOKEN;
+const AccessKey =
+  process.env.NEXT_PUBLIC_QINIU_ACCESS_TOKEN || process.env.QINIU_ACCESS_TOKEN;
+const SKey =
+  process.env.NEXT_PUBLIC_QINIU_SECRET_TOKEN || process.env.QINIU_SECRET_TOKEN;
 const bucket = "kecatpostimage";
 
 const getPutPolicy = (bucket: string, key: string) => {

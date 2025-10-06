@@ -41,6 +41,7 @@ import {
   Sort as SortIcon,
   Article as ArticleIcon,
 } from "@mui/icons-material";
+import { changePostList } from "@/api/post";
 
 export const Post = () => {
   const store = useStore();
@@ -253,6 +254,12 @@ export const Post = () => {
     </Card>
   );
 
+  const handleTest = () => {
+    changePostList({
+      data: 1,
+    });
+  };
+
   return (
     <Container maxWidth="xl" sx={{ px: 0 }}>
       {/* Page Header */}
@@ -274,6 +281,7 @@ export const Post = () => {
         >
           🌸 琪宝~琪宝~ 🌸
         </Typography>
+        <Button onClick={handleTest}>test</Button>
         <Typography
           variant="h6"
           color="text.secondary"

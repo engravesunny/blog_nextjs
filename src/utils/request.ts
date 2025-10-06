@@ -235,6 +235,7 @@ export class HttpClient {
 
     // 构建完整 URL
     const fullUrl = this.baseURL + url;
+    console.log("[ fullUrl ] >", fullUrl);
     const requestUrl = buildUrl(fullUrl, interceptedConfig.query);
 
     // 准备请求体
@@ -546,7 +547,8 @@ export class HttpClient {
 // ==================== 默认实例 ====================
 
 /** 默认请求客户端实例 */
-const baseURL = process.env.NEXT_PUBLIC_API_URL;
+/** 服务端URL和客户端URL */
+const baseURL = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL;
 export const request = new HttpClient(baseURL);
 
 // ==================== 便捷导出 ====================
