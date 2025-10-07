@@ -49,6 +49,7 @@ export type IPostState = {
 
 export type IPostActions = {
   // Actions
+  setPostState: (postInfo: IPostState) => void;
   addPost: (
     post: Omit<IPost, "id" | "createdAt" | "updatedAt" | "views" | "likes">
   ) => void;
@@ -381,6 +382,15 @@ export const postState: IPostState = {
 };
 
 export const postActions = (set: any, get: any) => ({
+  setPostState: (postInfo: IPostState) => {
+    set((state: RootStore) => {
+      const newPostState = {
+        ...state.postState,
+        ...postInfo,
+      };
+      state.postState = newPostState;
+    });
+  },
   addPost: (
     post: Omit<IPost, "id" | "createdAt" | "updatedAt" | "views" | "likes">
   ) => {

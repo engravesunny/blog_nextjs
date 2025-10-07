@@ -1,5 +1,5 @@
 export enum RESPONSE_CODE {
-  SUCCESS = 0,
+  SUCCESS = 200,
   NOT_FOUND = 404,
   UNKNOWN_ERROR = 500,
 }

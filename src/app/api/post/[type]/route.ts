@@ -1,40 +1,32 @@
 import { POSTINFO_OPERATION } from "@/enum/post";
-import { RESPONSE_CODE, RESPONSE_MESSAGE } from "@/enum/response";
-import { NextResponse, NextRequest } from "next/server";
+import { NextRequest } from "next/server";
 import fs from "fs";
 import path from "path";
+import { handleResponse } from "../../_utils";
+
+const response = handleResponse();
 
 export async function POST(request: NextRequest, { params }: any) {
   try {
     const { type } = await params;
-    const data = await request.json();
     const filePath = path.join(process.cwd(), "data", "info.json");
     if (type === POSTINFO_OPERATION.GET) {
+      // 获取文章信息
       const fileContent = fs.readFileSync(filePath, "utf8");
       const data = JSON.parse(fileContent);
-      console.log("[ data ] >", data);
-      // 获取文章信息
-      return NextResponse.json({
-        code: RESPONSE_CODE.SUCCESS,
-        msg: RESPONSE_MESSAGE.SUCCESS,
-      });
+      return response.success(data);
     }
     if (type === POSTINFO_OPERATION.UPDATE) {
       // 更新文章信息
+      const data = await request.json();
       console.log("[ data ] >", data);
       console.log("[ await params ] >", await params);
       const fileContent = fs.readFileSync(filePath, "utf8");
       console.log("[ filePath ] >", filePath);
       console.log("[ fileContent ] >", fileContent);
     }
-    return NextResponse.json({
-      code: RESPONSE_CODE.NOT_FOUND,
-      msg: RESPONSE_MESSAGE.NOT_FOUND,
-    });
+    return response.not_found();
   } catch (error) {
-    return NextResponse.json({
-      code: RESPONSE_CODE.UNKNOWN_ERROR,
-      msg: RESPONSE_MESSAGE.UNKNOWN_ERROR,
-    });
+    return response.unknown();
   }
 }

@@ -1,10 +1,13 @@
-import { get, post } from "@/utils/request";
+import { IPostState } from "@/store/post";
+import { ApiResponse, post } from "@/utils/request";
 
-export const getPostList = async () => {
-  return await post("/post/get");
+export const getPostInfo = async (): Promise<ApiResponse<IPostState>> => {
+  return await post<IPostState>("/post/get");
 };
 
-export const changePostList = async (data: any) => {
+export const changePostInfo = async (
+  data: any
+): Promise<ApiResponse<IPostState>> => {
   console.log("[ postinit ] >");
-  return await post("/post/update", data);
+  return await post<IPostState>("/post/update", data);
 };

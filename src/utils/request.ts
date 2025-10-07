@@ -235,7 +235,6 @@ export class HttpClient {
 
     // 构建完整 URL
     const fullUrl = this.baseURL + url;
-    console.log("[ fullUrl ] >", fullUrl);
     const requestUrl = buildUrl(fullUrl, interceptedConfig.query);
 
     // 准备请求体

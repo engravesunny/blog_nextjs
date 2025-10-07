@@ -1,4 +1,6 @@
+import { getPostInfo } from "@/api/post";
 import { Post } from "@/components/post";
+import { SavePostInfo } from "@/components/post/SavePostInfo";
 import { Box, Container } from "@mui/material";
 
 export const metadata = {
@@ -29,6 +31,7 @@ export const metadata = {
 };
 
 export default async function Home() {
+  const postInfo = await getPostInfo();
   return (
     <Box
       component="main"
@@ -44,7 +47,8 @@ export default async function Home() {
           px: { xs: 2, sm: 3, md: 4 },
         }}
       >
-        <Post />
+        <SavePostInfo postInfo={postInfo.data} />
+        <Post postInfo={postInfo.data} />
       </Container>
     </Box>
   );
